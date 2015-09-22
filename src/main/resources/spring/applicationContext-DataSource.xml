@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="dataSourceAlpha" class="org.apache.commons.dbcp2.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="#{config['jdbc.driverClassName']}" />
+		<property name="url" value="#{config['jdbc.url']}" />
+		<property name="username" value="#{config['jdbc.username']}" />
+		<property name="password" value="#{config['jdbc.password']}" />
+		<property name="defaultAutoCommit" value="true" />
+	</bean>
+
+	<!-- dataSourceBeta -->
+</beans>

@@ -1,0 +1,193 @@
+table.table {
+	border-width: 1px 1px 1px 1px;
+	border-spacing: 0;
+	border-collapse: collapse;
+	border-style: solid;
+	border-color: #95b8e7;
+}
+
+.table caption {
+	font-weight: bold;
+	color: #444444;
+	margin: 0;
+	padding: 4px;
+	border-width: 1px 1px 0 1px;
+	border-style: solid;
+	border-color: #95B8E7;
+	background: url(bjt.gif) repeat-x;
+}
+
+.table th {
+	font-weight: 400;
+	color: #444444;
+	line-height: 24px;
+	border-width: 0 0 1px 0;
+	border-right: 1px;
+	border-style: dotted;
+	background: url(hbj.gif) repeat-x;
+	border-color: #dddddd;
+}
+
+.table td {
+	margin: 0;
+	padding: 4px;
+	border-width: 1px 1px 0 0;
+	border-style: dotted;
+	border-color: #dddddd;
+	color: #4f6b72;
+}
+
+.table tfoot {
+	background-color: #f4f4f4;
+}
+
+select, input[type=text], input[type=file], input[type=password],
+	textarea {
+	border-color: #95B8E7;
+	border-style: solid;
+	border-width: 1px;
+	color: #4F4F4F;
+}
+
+input[type=submit], button {
+	cursor: pointer;
+}
+
+th[data-sort] {
+	cursor: pointer;
+}
+/*
+----------------------------------------------------------------------------------------------------* /
+
+.pagination {
+	padding: 5px;
+	float: none;
+}
+
+.pagination a, .pagination a:link, .pagination a:visited {
+	padding: 2px 5px 2px 5px;
+	margin: 2px;
+	border: 1px solid #aaaadd;
+	text-decoration: none;
+	color: #006699;
+}
+
+.pagination a:hover, .pagination a:active {
+	border: 1px solid #6AAACB;
+	color: #000;
+	text-decoration: none;
+}
+
+.pagination span.current {
+	padding: 2px 5px 2px 5px;
+	margin: 2px;
+	border: 1px solid #6AAACB;
+	font-weight: bold;
+	background-color: #6AAACB;
+	color: #FFF;
+}
+
+.pagination span.disabled {
+	padding: 2px 5px 2px 5px;
+	margin: 2px;
+	border: 1px solid #aaaadd;
+	text-decoration: none;
+	color: #006699;
+}
+
+/* Basic HTML
+----------------------------------------------------------------------------------------------------*/
+body {
+	font: 12px/1.5 "宋体", arial, sans-serif;
+	padding-left: 10px;
+	padding-right: 10px;
+	color: #4F4F4F;
+}
+
+pre, code {
+	font-family: 'DejaVu Sans Mono', Menlo, Consolas, monospace;
+}
+
+hr {
+	border: 0 #ccc solid;
+	border-top-width: 1px;
+	clear: both;
+	height: 0;
+}
+
+/* Headings
+----------------------------------------------------------------------------------------------------*/
+h1 {
+	font-size: 25px;
+}
+
+h2 {
+	font-size: 23px;
+}
+
+h3 {
+	font-size: 21px;
+}
+
+h4 {
+	font-size: 19px;
+}
+
+h5 {
+	font-size: 17px;
+}
+
+h6 {
+	font-size: 15px;
+}
+
+/*
+----------------------------------------------------------------------------------------------------* /
+.modal {
+	display: none;
+	position: fixed;
+	z-index: 1000;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	background: #E8E8E8;
+	opacity: 0.7
+}
+
+/* When the body has the loading class, we turn
+   the scrollbar off with overflow:hidden */
+body.loading {
+	overflow: hidden;
+}
+
+/* Anytime the body has the loading class, our
+   modal element will be visible */
+body.loading .modal {
+	display: block;
+}
+
+.divModal {
+	border: 2px solid #95B8E7;
+	border-color: #729ECB;
+	Background-color: #FFFFFF;
+	margin: auto;
+	margin-top: 100px;
+	width: 182px;
+	height: 40px;
+	text-align: center;
+	line-height: 40px;
+	position: relative;
+	top: 20%;
+}
+/*
+----------------------------------------------------------------------------------------------------*/
+.fieldset-self {
+	border: 1px solid #95B8E7;
+	margin:0px;
+}
+
+.fieldset-self legend {
+	font-weight: bold;
+	color: #09335d;
+}

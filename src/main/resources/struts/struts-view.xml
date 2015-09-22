@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+    <package name="pages" namespace="/pages" extends="struts-default,json-default">
+		<global-results>
+			<result name="json" type="json" >  
+                <param name="root">jsonMap</param>  
+            </result> 
+		</global-results>
+        <action name="person!*" method="{1}" class="cn.zno.smse.action.PersonAction">
+            <result name="goAdd" type="dispatcher">/jsp/pages/person/PersonAdd.jsp</result>
+            <result name="goDetail" type="dispatcher">/jsp/pages/person/PersonDetail.jsp</result>
+            <result name="goEdit" type="dispatcher">/jsp/pages/person/PersonEdit.jsp</result>
+            <result name="goList" type="dispatcher">/jsp/pages/person/PersonList.jsp</result>
+        </action>
+
+    </package>
+</struts>
