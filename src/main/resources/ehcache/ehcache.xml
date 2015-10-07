@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ehcache updateCheck="false" dynamicConfig="true"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd">
+
+	<diskStore path="java.io.tmpdir" />
+
+<!-- 
+	UDP(
+		mcast_addr:Multicast address to be used for discovery
+		mcast_port:Multicast port for discovery packets. Default is 7555
+		bind_port:Port for discovery packets
+		ip_ttl:The time-to-live (TTL) for multicast datagram packets. Default is 8
+		mcast_send_buf_size:Send buffer size of the multicast datagram socket. Default is 100'000 bytes
+		mcast_recv_buf_size:Receive buffer size of the multicast datagram socket. Default is 500'000 bytes
+	)
+	PING(
+		timeout:
+		num_initial_members:Minimum number of initial members to get a response from
+	)
+	MERGE2(
+		min_interval:Minimum time in ms between runs to discover other clusters
+		max_interval:Maximum time in ms between runs to discover other clusters
+	)
+	FD_SOCK(
+		
+	)
+	VERIFY_SUSPECT(
+		timeout:
+	)
+	pbcast.NAKACK(
+		retransmit_timeout:
+	)
+	UNICAST(
+	
+	)
+	pbcast.STABLE(
+		desired_avg_gossip:
+	)
+	FRAG(
+	
+	)
+	pbcast.GMS(
+		join_timeout:
+		print_local_addr:
+	)
+ -->
+	<cacheManagerPeerProviderFactory
+         class="net.sf.ehcache.distribution.jgroups.JGroupsCacheManagerPeerProviderFactory"
+         properties="channel=ehcache^connect=UDP(mcast_addr=231.12.21.132;mcast_port=45566;bind_port=33433;ip_ttl=32;
+         mcast_send_buf_size=150000;mcast_recv_buf_size=80000):
+         PING(timeout=2000;num_initial_members=6):
+         MERGE2(min_interval=5000;max_interval=10000):
+         FD_SOCK:VERIFY_SUSPECT(timeout=1500):
+         pbcast.NAKACK(retransmit_timeout=3000):
+         UNICAST:
+         pbcast.STABLE(desired_avg_gossip=20000):
+         FRAG:
+         pbcast.GMS(join_timeout=5000;print_local_addr=true)"
+         propertySeparator="^"
+     />
+
+
+<!--	
+		<defaultCache> 是名为"default" 的<cache>
+		maxElementsInMemory:内存中最大元素个数。如果开启 overflowToDisk 则超出部分转移到磁盘；如未开启则会按照 memoryStoreEvictionPolicy 回收。
+		eternal:是否永驻内存
+		overflowToDisk:超出后转到磁盘。文件名为<cache> 的name 加后缀.data 例如：default.data
+		diskPersistent:在虚拟机重启时是否进行磁盘存储
+		timeToIdleSeconds:两次访问该元素的最大时间间隔，超出后失效
+		timeToLiveSeconds:创建后生存时间
+		maxElementsOnDisk:磁盘中最大元素个数
+		diskExpiryThreadIntervalSeconds:磁盘缓存的清理线程运行间隔 
+		memoryStoreEvictionPolicy:内存回收策略
+-->
+	<defaultCache maxElementsInMemory="1000000" 
+		eternal="false"
+		overflowToDisk="false" 
+		diskPersistent="false" 
+		timeToIdleSeconds="120" 
+		timeToLiveSeconds="300" 
+		maxElementsOnDisk="10000000"
+		diskExpiryThreadIntervalSeconds="120"
+		memoryStoreEvictionPolicy="LRU">
+		<!-- 同步缓存 -->
+		<cacheEventListenerFactory class="net.sf.ehcache.distribution.jgroups.JGroupsCacheReplicatorFactory" />
+	</defaultCache>
+	
+</ehcache>

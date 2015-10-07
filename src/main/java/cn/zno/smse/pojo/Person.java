@@ -1,12 +1,14 @@
 package cn.zno.smse.pojo;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
 import cn.zno.smse.common.util.DateUtil;
 
-public class Person {
+public class Person implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
 	// -----------------------------------
 	// --------后追加字段------------------
 	// -----------------------------------

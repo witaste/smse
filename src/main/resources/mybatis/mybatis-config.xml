@@ -4,11 +4,19 @@
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<!-- mybatis-config.xml -->
+	<settings>
+		<setting name="lazyLoadingEnabled" value="true" />
+		<setting name="aggressiveLazyLoading" value="false" />
+		<setting name="cacheEnabled" value="true" />
+        <setting name="defaultExecutorType" value="REUSE" />
+	</settings>
+	
 	<plugins>
 		<plugin interceptor="cn.zno.smse.mybatis.PaginationInterceptor">
 			<property name="dialect" value="oracle" />
 		</plugin>
 	</plugins>
+	
 	<mappers>
 		<package name="cn.zno.smse.dao" />
 	</mappers>

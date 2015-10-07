@@ -15,6 +15,12 @@
 			<artifactId>spring-context</artifactId>
 			<version>4.1.6.RELEASE</version>
 		</dependency>
+		<!-- org.springframework.cache.ehcache.EhCacheCacheManager -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>4.1.6.RELEASE</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
@@ -42,7 +48,12 @@
 			<artifactId>mybatis-ehcache</artifactId>
 			<version>1.0.2</version>
 		</dependency>
-
+		<!-- MyBatis延迟加载时，创建代理类 -->
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib-nodep</artifactId>
+			<version>3.1</version>
+		</dependency>
 		<!-- ojdbc6 -->
 		<dependency>
 			<groupId>com.oracle</groupId>
@@ -122,6 +133,18 @@
 			<version>1.1.3</version>
 		</dependency>
 
+		<!-- ehcache -->
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache-core</artifactId>
+			<version>2.6.11</version>
+		</dependency>
+		<!-- 缓存集群同步（jgroups） -->
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache-jgroupsreplication</artifactId>
+			<version>1.7</version>
+		</dependency>
 		<!-- test -->
 		<dependency>
 			<groupId>org.springframework</groupId>
