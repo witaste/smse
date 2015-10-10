@@ -6,14 +6,19 @@
     <package name="pages" namespace="/pages" extends="struts-default,json-default">
 		<global-results>
 			<result name="json" type="json" >  
-                <param name="root">jsonMap</param>  
+                <param name="root">jsonObject</param>  
             </result> 
 		</global-results>
+		<action name="system!*" method="{1}" class="cn.zno.smse.action.SystemAction">
+            <result name="initMain" type="dispatcher">/jsp/pages/main.jsp</result>
+            <result name="initMenu" type="dispatcher">/jsp/pages/menu.jsp</result>
+            <result name="crudMenu" type="dispatcher">/jsp/pages/menuCRUD.jsp</result>
+        </action>
         <action name="person!*" method="{1}" class="cn.zno.smse.action.PersonAction">
-            <result name="goAdd" type="dispatcher">/jsp/pages/person/PersonAdd.jsp</result>
-            <result name="goDetail" type="dispatcher">/jsp/pages/person/PersonDetail.jsp</result>
-            <result name="goEdit" type="dispatcher">/jsp/pages/person/PersonEdit.jsp</result>
-            <result name="goList" type="dispatcher">/jsp/pages/person/PersonList.jsp</result>
+            <result name="goAdd" type="dispatcher">/jsp/pages/person/personAdd.jsp</result>
+            <result name="goDetail" type="dispatcher">/jsp/pages/person/personDetail.jsp</result>
+            <result name="goEdit" type="dispatcher">/jsp/pages/person/personEdit.jsp</result>
+            <result name="goList" type="dispatcher">/jsp/pages/person/personList.jsp</result>
         </action>
 
     </package>

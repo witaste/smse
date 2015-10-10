@@ -14,43 +14,36 @@ public class PersonAction extends AbstractBaseAction {
 
 	private Person person;
 
-	@Override
 	public String goAdd() {
-		return GOADD;
+		return "goAdd";
 	}
 
-	@Override
 	public String goDetail() {
 		person = personService.getRecord(person);
-		return GODETAIL;
+		return "goDetail";
 	}
 
-	@Override
 	public String goEdit() {
 		person = personService.getRecord(person);
-		return GOEDIT;
+		return "goEdit";
 	}
 
-	@Override
 	public String goList() {
-		return GOLIST;
+		return "goList";
 	}
 
-	@Override
 	public String saveAdd() {
-		jsonMap = personService.saveAdd(person);
+		jsonObject = personService.saveAdd(person);
 		return JSON;
 	}
 
-	@Override
 	public String saveEdit() {
-		jsonMap = personService.saveEdit(person);
+		jsonObject = personService.saveEdit(person);
 		return JSON;
 	}
 
-	@Override
 	public String getList() {
-		jsonMap = personService.getList(person, getRowBounds());
+		jsonObject = personService.getList(person, getRowBounds());
 		return JSON;
 	}
 

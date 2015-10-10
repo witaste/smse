@@ -1,7 +1,5 @@
 package cn.zno.smse.action;
 
-import java.util.Map;
-
 import org.apache.ibatis.session.RowBounds;
 
 import com.opensymphony.xwork2.ActionSupport;
@@ -14,7 +12,7 @@ public abstract class AbstractBaseAction extends ActionSupport {
 	// easyUI 默认参数
 	String page;
 	String rows;
-	Map<String,Object> jsonMap;
+	Object jsonObject;
 	public String getPage() {
 		return page;
 	}
@@ -27,30 +25,32 @@ public abstract class AbstractBaseAction extends ActionSupport {
 	public void setRows(String rows) {
 		this.rows = rows;
 	}
-	public Map<String, Object> getJsonMap() {
-		return jsonMap;
+	public Object getJsonObject() {
+		return jsonObject;
 	}
-	public void setJsonMap(Map<String, Object> jsonMap) {
-		this.jsonMap = jsonMap;
+	public void setJsonObject(Object jsonObject) {
+		this.jsonObject = jsonObject;
 	}
+	
 
 
-	// 页面跳转
-	static final String GOADD = "goAdd";
-	static final String GODETAIL = "goDetail";
-	static final String GOLIST = "goList";
-	static final String GOEDIT = "goEdit";
+//	// 页面跳转
+//	static final String GOADD = "goAdd";
+//	static final String GODETAIL = "goDetail";
+//	static final String GOLIST = "goList";
+//	static final String GOEDIT = "goEdit";
 	static final String JSON = "json";
+//	
+//	
+//	// 数据保存 
+//	public abstract String goAdd();
+//	public abstract String goDetail();
+//	public abstract String goEdit();
+//	public abstract String goList();
+//	public abstract String saveAdd();
+//	public abstract String saveEdit();
+//	public abstract String getList();
 	
-	
-	// 数据保存 
-	public abstract String goAdd();
-	public abstract String goDetail();
-	public abstract String goEdit();
-	public abstract String goList();
-	public abstract String saveAdd();
-	public abstract String saveEdit();
-	public abstract String getList();
 	
 	// 分页信息 
 	public RowBounds getRowBounds(){
