@@ -10,15 +10,15 @@
             </result> 
 		</global-results>
 		<action name="system!*" method="{1}" class="cn.zno.smse.action.SystemAction">
-            <result name="initMain" type="dispatcher">/jsp/pages/main.jsp</result>
-            <result name="initMenu" type="dispatcher">/jsp/pages/menu.jsp</result>
-            <result name="crudMenu" type="dispatcher">/jsp/pages/menuCRUD.jsp</result>
+            <result name="main" type="dispatcher">/jsp/pages/main.jsp</result>
+            <result name="menuL" type="dispatcher">/jsp/pages/menuL.jsp</result>
+            <result name="menuR" type="dispatcher">/jsp/pages/menuR.jsp</result>
         </action>
         <action name="person!*" method="{1}" class="cn.zno.smse.action.PersonAction">
-            <result name="goAdd" type="dispatcher">/jsp/pages/person/personAdd.jsp</result>
-            <result name="goDetail" type="dispatcher">/jsp/pages/person/personDetail.jsp</result>
-            <result name="goEdit" type="dispatcher">/jsp/pages/person/personEdit.jsp</result>
-            <result name="goList" type="dispatcher">/jsp/pages/person/personList.jsp</result>
+            <result name="add" type="dispatcher">/jsp/pages/person/personAdd.jsp</result>
+            <result name="detail" type="dispatcher">/jsp/pages/person/personDetail.jsp</result>
+            <result name="edit" type="dispatcher">/jsp/pages/person/personEdit.jsp</result>
+            <result name="list" type="dispatcher">/jsp/pages/person/personList.jsp</result>
         </action>
 
     </package>

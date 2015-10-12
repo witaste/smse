@@ -44,10 +44,20 @@ function edit(){
 
 function addSameLevel(){
 	var node = $('#tree').tree('getSelected');
+	if(node){
+		var param = "?flag=ASL";
+		if(node.attributes.pid != undefined){
+			param += "&menu.pid="+node.attributes.pid;
+		}
+		$("#treeDetail").attr("src","system!initMenu" + param);
+	}
 }
 
 function addNextLevel(){
 	var node = $('#tree').tree('getSelected');
+	if(node){
+		$("#treeDetail").attr("src","system!initMenu?flag=ANL&menu.pid="+node.id);
+	}
 }
 </script>
 </head>

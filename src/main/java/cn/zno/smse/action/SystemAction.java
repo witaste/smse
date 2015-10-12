@@ -1,66 +1,76 @@
 package cn.zno.smse.action;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
-import cn.zno.smse.pojo.SystemAccessPermission;
 import cn.zno.smse.pojo.SystemMenu;
+import cn.zno.smse.pojo.SystemRole;
 import cn.zno.smse.service.SystemService;
 
 public class SystemAction extends AbstractBaseAction {
 
 	private static final long serialVersionUID = 1L;
 	private String flag = "null";
+	private String changes;
 
 	@Autowired
 	private SystemService systemService;
 	
 	private SystemMenu menu;
-	private List<SystemAccessPermission> accessPermissionList; 
+	private SystemRole systemRole;
 
+	// 跳转到 main.jsp
 	public String initMain() {
-		return "initMain";
+		return "main";
 	}
 
+	// 异步加载tree
 	public String getTreeNode() {
 		jsonObject = systemService.getTreeNode();
 		return JSON;
 	}
 
+	// 跳转到menu.jsp
 	public String initMenu() {
 		switch (flag) {
-		case "C": {
-			return "crudMenu";
+		case "ASL": {// add same level
+			return "menuR";
 		}
-		case "R": {
-			if(menu != null){
-				menu = systemService.getMenu(menu);
-			}
-			return "crudMenu";
+		case "R": {// retrieve
+			menu = systemService.getMenu(menu);
+			return "menuR";
 		}
-		case "U": {
-			return "crudMenu";
+		case "U": {// update
+			menu = systemService.getMenu(menu);
+			return "menuR";
 		}
-		case "D": {
-			return "crudMenu";
+		case "ANL": {// add next level
+			return "menuR";
 		}
 		default: {
-			return "initMenu";
+			return "menuL";
 		}
 		}
 	}
 
+	// 保存菜单信息 
 	public String saveMenu() {
-		return "initMenu";
+		jsonObject = systemService.saveMenu(menu,changes);
+		return JSON;
 	}
 	
+	// 异步加载资源信息 
 	public String getAccessPermission(){
 		jsonObject = systemService.getAccessPermission(menu);
 		return JSON;
 	}
+	// 异步加载[该菜单所属]角色信息
 	public String getRole(){
 		jsonObject = systemService.getRole(menu);
+		return JSON;
+	}
+	// 异步加载全部角色信息
+	public String getRoleAll(){
+		jsonObject = systemService.getRoleAll(systemRole ,getRowBounds());
 		return JSON;
 	}
 
@@ -80,13 +90,20 @@ public class SystemAction extends AbstractBaseAction {
 		this.menu = menu;
 	}
 
-	public List<SystemAccessPermission> getAccessPermissionList() {
-		return accessPermissionList;
+	public String getChanges() {
+		return changes;
 	}
 
-	public void setAccessPermissionList(
-			List<SystemAccessPermission> accessPermissionList) {
-		this.accessPermissionList = accessPermissionList;
+	public void setChanges(String changes) {
+		this.changes = changes;
 	}
-	
+
+	public SystemRole getSystemRole() {
+		return systemRole;
+	}
+
+	public void setSystemRole(SystemRole systemRole) {
+		this.systemRole = systemRole;
+	}
+
 }

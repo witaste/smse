@@ -14,22 +14,22 @@ public class PersonAction extends AbstractBaseAction {
 
 	private Person person;
 
-	public String goAdd() {
-		return "goAdd";
+	public String initAdd() {
+		return ADD;
 	}
 
-	public String goDetail() {
+	public String initDetail() {
 		person = personService.getRecord(person);
-		return "goDetail";
+		return DETAIL;
 	}
 
-	public String goEdit() {
+	public String initEdit() {
 		person = personService.getRecord(person);
-		return "goEdit";
+		return EDIT;
 	}
 
-	public String goList() {
-		return "goList";
+	public String initList() {
+		return LIST;
 	}
 
 	public String saveAdd() {
@@ -42,6 +42,7 @@ public class PersonAction extends AbstractBaseAction {
 		return JSON;
 	}
 
+	// 异步加载列表 
 	public String getList() {
 		jsonObject = personService.getList(person, getRowBounds());
 		return JSON;

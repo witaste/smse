@@ -12,7 +12,26 @@ public abstract class AbstractBaseAction extends ActionSupport {
 	// easyUI 默认参数
 	String page;
 	String rows;
+	
+	// 返回 JSON 
 	Object jsonObject;
+
+	// 页面跳转
+	static final String JSON = "json";
+	static final String ADD = "add";
+	static final String DETAIL = "detail";
+	static final String EDIT = "edit";
+	static final String LIST = "list";
+	
+	
+	
+	// 分页信息 
+	public RowBounds getRowBounds(){
+		int pageNo = Integer.parseInt((page == null || page == "0") ? "1": page);
+		int pageSize = Integer.parseInt((rows == null || rows == "0") ? "10": rows);
+		return new RowBounds((pageNo - 1) * pageSize, pageSize);
+	}
+	
 	public String getPage() {
 		return page;
 	}
@@ -30,32 +49,5 @@ public abstract class AbstractBaseAction extends ActionSupport {
 	}
 	public void setJsonObject(Object jsonObject) {
 		this.jsonObject = jsonObject;
-	}
-	
-
-
-//	// 页面跳转
-//	static final String GOADD = "goAdd";
-//	static final String GODETAIL = "goDetail";
-//	static final String GOLIST = "goList";
-//	static final String GOEDIT = "goEdit";
-	static final String JSON = "json";
-//	
-//	
-//	// 数据保存 
-//	public abstract String goAdd();
-//	public abstract String goDetail();
-//	public abstract String goEdit();
-//	public abstract String goList();
-//	public abstract String saveAdd();
-//	public abstract String saveEdit();
-//	public abstract String getList();
-	
-	
-	// 分页信息 
-	public RowBounds getRowBounds(){
-		int pageNo = Integer.parseInt((page == null || page == "0") ? "1": page);
-		int pageSize = Integer.parseInt((rows == null || rows == "0") ? "10": rows);
-		return new RowBounds((pageNo - 1) * pageSize, pageSize);
 	}
 }
