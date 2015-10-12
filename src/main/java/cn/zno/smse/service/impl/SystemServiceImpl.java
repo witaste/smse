@@ -1,5 +1,6 @@
 package cn.zno.smse.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,7 +36,7 @@ import cn.zno.smse.service.SystemService;
 public class SystemServiceImpl implements SystemService {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
-	
+
 	@Autowired
 	private SystemMenuMapper systemMenuMapper;
 	@Autowired
@@ -44,8 +45,7 @@ public class SystemServiceImpl implements SystemService {
 	private SystemRoleMapper systemRoleMapper;
 	@Autowired
 	private SystemRoleMenuLinkMapper systemRoleMenuLinkMapper;
-	
-	
+
 	@Override
 	public JSONArray getTreeNode() {
 		// 获取全部数据
@@ -84,7 +84,7 @@ public class SystemServiceImpl implements SystemService {
 					attributes.put("icon", icon);
 				}
 				attributes.put("show", menu.getShow());
-				if (!pid.equals("null")) { //如果pid为null字符串会报这个异常： net.sf.json.JSONException: Object is null
+				if (!pid.equals("null")) { // 如果pid为null字符串会报这个异常： net.sf.json.JSONException: Object is null
 					attributes.put("pid", pid);
 				}
 				attributes.put("isLeaf", isLeaf);
@@ -123,32 +123,34 @@ public class SystemServiceImpl implements SystemService {
 		dataMap.put("rows", roleList);
 		return dataMap;
 	}
+
 	@Override
 	public Map<String, Object> getRoleAll(SystemRole role, RowBounds rowBounds) {
 		Map<String, Object> dataMap = new HashMap<String, Object>();
 		SystemRoleExample roleExample = new SystemRoleExample();
-		cn.zno.smse.pojo.SystemRoleExample.Criteria criteria = roleExample.createCriteria();
-		if(role != null && role.getName() != null){
+		cn.zno.smse.pojo.SystemRoleExample.Criteria criteria = roleExample
+				.createCriteria();
+		if (role != null && role.getName() != null) {
 			criteria.andNameLike("%" + role.getName() + "%");
 		}
-		if(role != null && role.getRole() != null){
+		if (role != null && role.getRole() != null) {
 			criteria.andRoleLike("%" + role.getRole() + "%");
 		}
 		int cnt = systemRoleMapper.countByExample(roleExample);
-		List<SystemRole> roleList = systemRoleMapper.selectByExample(roleExample,
-				rowBounds);
+		List<SystemRole> roleList = systemRoleMapper.selectByExample(
+				roleExample, rowBounds);
 		dataMap.put("total", cnt);
 		dataMap.put("rows", roleList);
 		return dataMap;
 	}
 
 	@Override
-	public Map<String,Object> saveMenu(SystemMenu menu,String changes) {
+	public Map<String, Object> saveMenu(SystemMenu menu, String changes) {
 		Map<String, Object> dataMap = new HashMap<String, Object>();
-		try{
-			saveMenuTranscational(menu,changes);
+		try {
+			saveMenuTranscational(menu, changes);
 			dataMap.put(Constants.SUCCESS, Constants.SUCCESS_MSG);
-		}catch(RuntimeException e){
+		} catch (RuntimeException e) {
 			dataMap.put(Constants.ERROR, Constants.ERROR_MSG);
 			logger.error(e.getMessage(), e);
 		}
@@ -156,11 +158,11 @@ public class SystemServiceImpl implements SystemService {
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
-	private void saveMenuTranscational(SystemMenu menu,String changes) {
-		// 菜单 
-		if(menu.getId() == null || menu.getId().trim().equals("")){
+	private void saveMenuTranscational(SystemMenu menu, String changes) {
+		// 菜单
+		if (menu.getId() == null || menu.getId().trim().equals("")) {
 			systemMenuMapper.insertSelective(menu);
-		}else{
+		} else {
 			systemMenuMapper.updateByPrimaryKeySelective(menu);
 		}
 		JSONObject jo_changes = JSONObject.fromObject(changes);
@@ -170,35 +172,93 @@ public class SystemServiceImpl implements SystemService {
 		JSONArray delJS = jo_changes.getJSONArray("delJS");
 		JSONArray insJS = jo_changes.getJSONArray("insJS");
 		// 资源
-		for(int i = 0;i<delZY.size();i++){
-			systemAccessPermissionMapper.deleteByPrimaryKey(delZY.getJSONObject(i).getString("id"));
+		for (int i = 0; i < delZY.size(); i++) {
+			systemAccessPermissionMapper.deleteByPrimaryKey(delZY
+					.getJSONObject(i).getString("id"));
 		}
-		for(int i = 0;i<insZY.size();i++){
-			 SystemAccessPermission accessPermission = (SystemAccessPermission)JSONObject.toBean(insZY.getJSONObject(i), SystemAccessPermission.class);
-			 accessPermission.setMenuId(menu.getId());
-			 systemAccessPermissionMapper.insertSelective(accessPermission);
+		for (int i = 0; i < insZY.size(); i++) {
+			SystemAccessPermission accessPermission = (SystemAccessPermission) JSONObject
+					.toBean(insZY.getJSONObject(i),
+							SystemAccessPermission.class);
+			accessPermission.setMenuId(menu.getId());
+			systemAccessPermissionMapper.insertSelective(accessPermission);
 		}
-		for(int i = 0;i<updZY.size();i++){
-			 SystemAccessPermission accessPermission = (SystemAccessPermission)JSONObject.toBean(updZY.getJSONObject(i), SystemAccessPermission.class);
-			 systemAccessPermissionMapper.updateByPrimaryKeySelective(accessPermission);
+		for (int i = 0; i < updZY.size(); i++) {
+			SystemAccessPermission accessPermission = (SystemAccessPermission) JSONObject
+					.toBean(updZY.getJSONObject(i),
+							SystemAccessPermission.class);
+			systemAccessPermissionMapper
+					.updateByPrimaryKeySelective(accessPermission);
 		}
 		// 角色
-		for(int i = 0;i<delJS.size();i++){
+		for (int i = 0; i < delJS.size(); i++) {
 			String roleId = delJS.getJSONObject(i).getString("id");
 			systemRoleMapper.deleteByPrimaryKey(roleId);
 			SystemRoleMenuLinkExample roleMenuLinkExample = new SystemRoleMenuLinkExample();
-			cn.zno.smse.pojo.SystemRoleMenuLinkExample.Criteria criteria = roleMenuLinkExample.createCriteria();
+			cn.zno.smse.pojo.SystemRoleMenuLinkExample.Criteria criteria = roleMenuLinkExample
+					.createCriteria();
 			criteria.andRoleIdEqualTo(roleId);
 			criteria.andMenuIdEqualTo(menu.getId());
 			systemRoleMenuLinkMapper.deleteByExample(roleMenuLinkExample);
 		}
-		for(int i = 0;i<insJS.size();i++){
-			 SystemRole role = (SystemRole)JSONObject.toBean(insJS.getJSONObject(i), SystemRole.class);
-			 SystemRoleMenuLink roleMenuLink = new SystemRoleMenuLink();
-			 roleMenuLink.setMenuId(menu.getId());
-			 roleMenuLink.setRoleId(role.getId());
-			 systemRoleMenuLinkMapper.insert(roleMenuLink);
+		for (int i = 0; i < insJS.size(); i++) {
+			SystemRole role = (SystemRole) JSONObject.toBean(
+					insJS.getJSONObject(i), SystemRole.class);
+			SystemRoleMenuLink roleMenuLink = new SystemRoleMenuLink();
+			roleMenuLink.setMenuId(menu.getId());
+			roleMenuLink.setRoleId(role.getId());
+			systemRoleMenuLinkMapper.insert(roleMenuLink);
 		}
 	}
-	
+
+	@Override
+	public Map<String, Object> deleteMenu(SystemMenu menu) {
+		Map<String, Object> dataMap = new HashMap<String, Object>();
+		try {
+			deleteMenuTransactional(menu);
+			dataMap.put(Constants.SUCCESS, Constants.SUCCESS_MSG);
+		} catch (RuntimeException e) {
+			dataMap.put(Constants.ERROR, Constants.ERROR_MSG);
+			logger.error(e.getMessage(), e);
+		}
+		return dataMap;
+	}
+
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void deleteMenuTransactional(SystemMenu menu) {
+		SystemMenuExample menuExample = new SystemMenuExample();
+		menuExample.setOrderByClause("sort asc");
+		List<SystemMenu> menus = systemMenuMapper.selectByExample(menuExample);
+		List<String> ids = new ArrayList<String>();
+		ids.add(menu.getId()); // 添加本节点ID
+		childrenId(menu.getId(), menus, ids); // 添加子节点ID 
+		for (String id : ids) {
+			systemMenuMapper.deleteByPrimaryKey(id);
+			SystemRoleMenuLinkExample roleMenuLinkExample = new SystemRoleMenuLinkExample();
+			cn.zno.smse.pojo.SystemRoleMenuLinkExample.Criteria criteria = roleMenuLinkExample
+					.createCriteria();
+			criteria.andMenuIdEqualTo(id);
+			systemRoleMenuLinkMapper.deleteByExample(roleMenuLinkExample);
+			SystemAccessPermissionExample apExample = new SystemAccessPermissionExample();
+			cn.zno.smse.pojo.SystemAccessPermissionExample.Criteria criteriaAcc = apExample
+					.createCriteria();
+			criteriaAcc.andMenuIdEqualTo(menu.getId());
+			systemAccessPermissionMapper.deleteByExample(apExample);
+		}
+	}
+
+	private void childrenId(String my, List<SystemMenu> menus,
+			List<String> ids) {
+		for (SystemMenu menu : menus) {
+			String id = menu.getId();
+			String pid = menu.getPid();
+			my = my == null ? "null" : my;
+			pid = pid == null ? "null" : pid;
+			if (my.equals(pid)) {
+				ids.add(id);
+				childrenId(id, menus, ids);
+			}
+		}
+	}
+
 }

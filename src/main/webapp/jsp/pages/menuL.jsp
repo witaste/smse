@@ -42,6 +42,19 @@ function edit(){
 	}
 }
 
+function del(){
+	var node = $('#tree').tree('getSelected');
+	if (node) {
+		$.messager.confirm('确认','确定要删除选中的节点及其子节点吗',function(r){
+		    if (r){
+		    	$.get("system!initMenu?flag=D&menu.id="+node.id, function(data){
+		    		  window.parent.location.href = "system!initMain";
+		    	});
+		    }
+		});
+	}
+}
+
 function addSameLevel(){
 	var node = $('#tree').tree('getSelected');
 	if(node){
@@ -88,6 +101,7 @@ function addNextLevel(){
 	<div id="menu" class="easyui-menu" style="width: 120px;">
 		<div onclick="detail()">菜单明细</div>
 		<div onclick="edit()">菜单编辑</div>
+		<div onclick="del()">菜单删除</div>
 		<div onclick="addSameLevel()">增加同级菜单</div>
 		<div onclick="addNextLevel()">增加下级菜单</div>
 	</div>

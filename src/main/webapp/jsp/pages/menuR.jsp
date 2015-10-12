@@ -111,7 +111,7 @@
 		</thead>
 	</table>
 	<div style="margin-top:20px; width: 400px;text-align:center">
-		<a class="easyui-linkbutton"  href="person!initList">返回列表</a>
+		<a class="easyui-linkbutton" href="#" onclick="back()">返回列表</a>
 		<s:if test="flag != \"R\"">
 			<a class="easyui-linkbutton"  href="#" onclick="saveData()">保存数据</a>
 		</s:if>
@@ -273,10 +273,13 @@
 		
 		$('#menuForm').form('submit', {
 		    success:function(data){
-		    	alert(data);
+		    	window.parent.parent.location.href = "system!initMain";
 		    }
 		});
 		// 保存数据end ----------->
+	}
+	function back(){
+		window.parent.location.href = "system!initMenu";
 	}
 </script>
 </body>

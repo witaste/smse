@@ -15,6 +15,8 @@ public interface SystemService {
 	public Map<String,Object> getRole(SystemMenu menu);
 	public Map<String,Object> getRoleAll(SystemRole role, RowBounds rowBounds);
 	public Map<String,Object> saveMenu(SystemMenu menu,String changes);
+	public Map<String,Object> deleteMenu(SystemMenu menu);
+	
 	
 
 }

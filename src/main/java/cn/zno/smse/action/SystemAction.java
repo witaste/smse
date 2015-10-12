@@ -24,6 +24,7 @@ public class SystemAction extends AbstractBaseAction {
 	}
 
 	// 异步加载tree
+	
 	public String getTreeNode() {
 		jsonObject = systemService.getTreeNode();
 		return JSON;
@@ -32,15 +33,19 @@ public class SystemAction extends AbstractBaseAction {
 	// 跳转到menu.jsp
 	public String initMenu() {
 		switch (flag) {
-		case "ASL": {// add same level
-			return "menuR";
-		}
 		case "R": {// retrieve
 			menu = systemService.getMenu(menu);
 			return "menuR";
 		}
 		case "U": {// update
 			menu = systemService.getMenu(menu);
+			return "menuR";
+		}
+		case "D": {// delete
+			jsonObject = systemService.deleteMenu(menu);
+			return JSON;
+		}
+		case "ASL": {// add same level
 			return "menuR";
 		}
 		case "ANL": {// add next level
