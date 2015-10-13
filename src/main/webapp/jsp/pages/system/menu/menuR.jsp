@@ -273,7 +273,7 @@
 		
 		$('#menuForm').form('submit', {
 		    success:function(data){
-		    	window.parent.parent.location.href = "system!initMain";
+		    	window.parent.location.href = "system!initMenu";
 		    }
 		});
 		// 保存数据end ----------->

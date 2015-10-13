@@ -33,7 +33,7 @@
 				var url = node.attributes.url;
 				var s = '';
 				if(node.attributes.isLeaf){
-					s = '<a href=\"'+url+'\" onclick=\"return toTab(\''+id+'\',\''+text+'\',\''+url+'\')\">'+text+'</a>';
+					s = '<a href=\"'+url+'\" onclick=\"return toTab(\''+text+'\',\''+url+'\')\">'+text+'</a>';
 				}else{
 					s = '<a href='+url+'>'+text+'</a>';
 				}
@@ -54,7 +54,7 @@
 		});
 	});
 	
-	function toTab(id,text,url) {
+	function toTab(text,url) {
 		if ($('#tabs').tabs('exists', text)) {
 			$('#tabs').tabs('select', text);
 			var tab = $('#tabs').tabs('getSelected');

@@ -99,4 +99,5 @@ public interface SystemRoleMapper {
     int updateByPrimaryKey(SystemRole record);
     
     List<SystemRole> selectByMenuId(String menuId);
+    List<SystemRole> selectByUserId(String userId);
 }

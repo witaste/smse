@@ -18,10 +18,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cn.zno.smse.common.constants.Constants;
 import cn.zno.smse.common.constants.EasyUIConstants;
+import cn.zno.smse.common.util.StringUtil;
 import cn.zno.smse.dao.SystemAccessPermissionMapper;
 import cn.zno.smse.dao.SystemMenuMapper;
 import cn.zno.smse.dao.SystemRoleMapper;
 import cn.zno.smse.dao.SystemRoleMenuLinkMapper;
+import cn.zno.smse.dao.SystemUserMapper;
+import cn.zno.smse.dao.SystemUserRoleLinkMapper;
 import cn.zno.smse.pojo.SystemAccessPermission;
 import cn.zno.smse.pojo.SystemAccessPermissionExample;
 import cn.zno.smse.pojo.SystemMenu;
@@ -30,6 +33,10 @@ import cn.zno.smse.pojo.SystemRole;
 import cn.zno.smse.pojo.SystemRoleExample;
 import cn.zno.smse.pojo.SystemRoleMenuLink;
 import cn.zno.smse.pojo.SystemRoleMenuLinkExample;
+import cn.zno.smse.pojo.SystemUser;
+import cn.zno.smse.pojo.SystemUserExample;
+import cn.zno.smse.pojo.SystemUserRoleLink;
+import cn.zno.smse.pojo.SystemUserRoleLinkExample;
 import cn.zno.smse.service.SystemService;
 
 @Service
@@ -40,11 +47,15 @@ public class SystemServiceImpl implements SystemService {
 	@Autowired
 	private SystemMenuMapper systemMenuMapper;
 	@Autowired
+	private SystemUserMapper systemUserMapper;
+	@Autowired
 	private SystemAccessPermissionMapper systemAccessPermissionMapper;
 	@Autowired
 	private SystemRoleMapper systemRoleMapper;
 	@Autowired
 	private SystemRoleMenuLinkMapper systemRoleMenuLinkMapper;
+	@Autowired
+	private SystemUserRoleLinkMapper systemUserRoleLinkMapper;
 
 	@Override
 	public JSONArray getTreeNode() {
@@ -193,7 +204,6 @@ public class SystemServiceImpl implements SystemService {
 		// 角色
 		for (int i = 0; i < delJS.size(); i++) {
 			String roleId = delJS.getJSONObject(i).getString("id");
-			systemRoleMapper.deleteByPrimaryKey(roleId);
 			SystemRoleMenuLinkExample roleMenuLinkExample = new SystemRoleMenuLinkExample();
 			cn.zno.smse.pojo.SystemRoleMenuLinkExample.Criteria criteria = roleMenuLinkExample
 					.createCriteria();
@@ -260,5 +270,278 @@ public class SystemServiceImpl implements SystemService {
 			}
 		}
 	}
+
+	@Override
+	public SystemUser getUserRecord(SystemUser user) {
+		user = systemUserMapper.selectByPrimaryKey(user.getId());
+		List<SystemRole> roleList = systemRoleMapper.selectByUserId(user.getId());
+		user.setRoleList(roleList);
+		return user;
+	}
+
+	// 用户管理
+	private String checkUser(SystemUser user){
+		String errorMsg = null;
+		// 校验start
+		if(user==null){
+			errorMsg = "数据不存在！";
+		}else if(StringUtil.isBlank(user.getName())){
+			errorMsg = "请填写用户名！";
+		}else if(StringUtil.isBlank(user.getUsername())){
+			errorMsg = "请填写登录用户名！";
+		}else if(StringUtil.isBlank(user.getPassword())){
+			errorMsg = "请填写登录密码！";
+		}else if(StringUtil.isBlank(user.getMobile())){
+			errorMsg = "请填写手机号！";
+		}else if(StringUtil.isBlank(user.getEmail())){
+			errorMsg = "请填写邮箱！";
+		}else if(StringUtil.isBlank(user.getId())){
+			SystemUserExample userExample = new SystemUserExample();
+			cn.zno.smse.pojo.SystemUserExample.Criteria criteria = userExample.createCriteria();
+			criteria.andNameEqualTo(user.getName());
+			int cnt = systemUserMapper.countByExample(userExample);
+			if(cnt > 0 ){
+				errorMsg = "用户名已存在！";
+			}
+		}
+		return errorMsg;
+	}
+	@Override
+	public Map<String, Object> saveUserAdd(SystemUser user) {
+		
+		Map<String,Object> resultMap = new HashMap<String,Object>();
+		String errorMsg = checkUser(user);
+		if(errorMsg != null){
+			resultMap.put(Constants.ERROR, errorMsg);
+			return resultMap;
+		}
+		try{
+			saveUserAddTransactional(user);
+			resultMap.put(Constants.SUCCESS, Constants.SUCCESS_INSERT);
+		}catch(RuntimeException e){
+			logger.error(e.getMessage(), e);
+			resultMap.put(Constants.ERROR, Constants.ERROR_INSERT);
+		}
+		return resultMap;
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	private void saveUserAddTransactional(SystemUser user) {
+		systemUserMapper.insertSelective(user);
+		if (user.getRoleList() == null)
+			return;
+		for (SystemRole role : user.getRoleList()) {
+			if (role == null)
+				continue;
+			SystemUserRoleLink userRoleLink = new SystemUserRoleLink();
+			userRoleLink.setUserId(user.getId());
+			userRoleLink.setRoleId(role.getId());
+			systemUserRoleLinkMapper.insert(userRoleLink);
+		}
+	}
+
+	@Override
+	public Map<String, Object> saveUserEdit(SystemUser user) {
+		Map<String,Object> resultMap = new HashMap<String,Object>();
+		String errorMsg = checkUser(user);
+		if(errorMsg != null){
+			resultMap.put(Constants.ERROR, errorMsg);
+			return resultMap;
+		}
+		try{
+			saveUserEditTransactional(user);
+			resultMap.put(Constants.SUCCESS, Constants.SUCCESS_UPDATE);
+		}catch(RuntimeException e){
+			logger.error(e.getMessage(), e);
+			resultMap.put(Constants.ERROR, Constants.ERROR_UPDATE);
+		}
+		return resultMap;
+	}
+
+	@Transactional(propagation = Propagation.REQUIRED)
+	private void saveUserEditTransactional(SystemUser user) {
+		systemUserMapper.updateByPrimaryKey(user);
+		SystemUserRoleLinkExample userRoleLinkExample = new SystemUserRoleLinkExample();
+		userRoleLinkExample.createCriteria().andUserIdEqualTo(user.getId());
+		systemUserRoleLinkMapper.deleteByExample(userRoleLinkExample);
+		if (user.getRoleList() == null)
+			return;
+		for (SystemRole role : user.getRoleList()) {
+			if (role == null)
+				continue;
+			SystemUserRoleLink userRoleLink = new SystemUserRoleLink();
+			userRoleLink.setUserId(user.getId());
+			userRoleLink.setRoleId(role.getId());
+			systemUserRoleLinkMapper.insert(userRoleLink);
+		}
+	}
+	
+	@Override
+	public Map<String, Object> deleteUser(String[] ids) {
+		Map<String, Object> dataMap = new HashMap<String, Object>();
+		try {
+			deleteUserTransactional(ids);
+			dataMap.put(Constants.SUCCESS, Constants.SUCCESS_MSG);
+		} catch (RuntimeException e) {
+			dataMap.put(Constants.ERROR, Constants.ERROR_MSG);
+			logger.error(e.getMessage(), e);
+		}
+		return dataMap;
+	}
+	@Transactional(propagation = Propagation.REQUIRED)
+	private void deleteUserTransactional(String[] ids){
+		for(int i=0;i<ids.length;i++){
+			// 第一步：删除用户
+			systemUserMapper.deleteByPrimaryKey(ids[i]);
+			// 第二部：删除用户角色绑定关系
+			SystemUserRoleLinkExample userRoleLinkExample = new SystemUserRoleLinkExample();
+			cn.zno.smse.pojo.SystemUserRoleLinkExample.Criteria criteria = userRoleLinkExample.createCriteria();
+			criteria.andUserIdEqualTo(ids[i]);
+			systemUserRoleLinkMapper.deleteByExample(userRoleLinkExample);
+		}
+	}
+
+	@Override
+	public Map<String, Object> getUserList(SystemUser user, RowBounds rowBounds) {
+		Map<String, Object> dataMap = new HashMap<String, Object>();
+		SystemUserExample userExample = new SystemUserExample();
+		if(user != null){
+			cn.zno.smse.pojo.SystemUserExample.Criteria criteria = userExample.createCriteria();
+			if(!StringUtil.isBlank(user.getName())){
+				criteria.andNameLike("%"+user.getName()+"%");
+			}
+		}
+		int cnt = systemUserMapper.countByExample(userExample);
+		List<SystemUser> list = systemUserMapper.selectByExample(userExample,
+				rowBounds);
+		dataMap.put("total", cnt);
+		dataMap.put("rows", list);
+		return dataMap;
+	}
+	
+	@Override
+	public List<SystemRole> getRoleList() {
+		SystemRoleExample roleExample = new SystemRoleExample();
+		return systemRoleMapper.selectByExample(roleExample);
+	}
+
+	// 角色 
+	
+	@Override
+	public SystemRole getRoleRecord(SystemRole role) {
+		return systemRoleMapper.selectByPrimaryKey(role.getId());
+	}
+
+	private String checkRole(SystemRole role){
+		
+		String errorMsg = null;
+		// 校验start
+		if(role==null){
+			errorMsg = "数据不存在！";
+		}else if(StringUtil.isBlank(role.getName())){
+			errorMsg = "请填写角色名称！";
+		}else if(StringUtil.isBlank(role.getRole())){
+			errorMsg = "请填写角色！";
+		}else if(StringUtil.isBlank(role.getId())){
+			SystemRoleExample roleExample = new SystemRoleExample();
+			cn.zno.smse.pojo.SystemRoleExample.Criteria criteria = roleExample.createCriteria();
+			criteria.andNameEqualTo(role.getName());
+			int cnt = systemRoleMapper.countByExample(roleExample);
+			if(cnt > 0 ){
+				errorMsg = "角色名称已存在！";
+			}else{
+				roleExample = new SystemRoleExample();
+				criteria = roleExample.createCriteria();
+				criteria.andRoleEqualTo(role.getRole());
+				cnt = systemRoleMapper.countByExample(roleExample);
+				if(cnt > 0){
+					errorMsg = "角色已存在！";
+				}
+			}
+		}
+		return errorMsg;
+	}
+	@Override
+	public Map<String, Object> saveRoleAdd(SystemRole role) {
+		Map<String,Object> resultMap = new HashMap<String,Object>();
+		String errorMsg = checkRole(role);
+		if(errorMsg != null){
+			resultMap.put(Constants.ERROR, errorMsg);
+			return resultMap;
+		}
+		int result = systemRoleMapper.insertSelective(role);
+		if(result==1){
+			resultMap.put(Constants.SUCCESS, Constants.SUCCESS_INSERT);
+		}else{
+			resultMap.put(Constants.ERROR, Constants.ERROR_INSERT);
+		}
+		return resultMap;
+	}
+
+	@Override
+	public Map<String, Object> saveRoleEdit(SystemRole role) {
+		Map<String,Object> resultMap = new HashMap<String,Object>();
+		String errorMsg = checkRole(role);
+		if(errorMsg != null){
+			resultMap.put(Constants.ERROR, errorMsg);
+			return resultMap;
+		}
+		int result = systemRoleMapper.updateByPrimaryKey(role);
+		if(result==1){
+			resultMap.put(Constants.SUCCESS, Constants.SUCCESS_UPDATE);
+		}else{
+			resultMap.put(Constants.ERROR, Constants.ERROR_UPDATE);
+		}
+		return resultMap;
+	}
+
+	@Override
+	public Map<String, Object> getRoleList(SystemRole role, RowBounds rowBounds) {
+		Map<String, Object> dataMap = new HashMap<String, Object>();
+		SystemRoleExample roleExample = new SystemRoleExample();
+		if(role != null){
+			cn.zno.smse.pojo.SystemRoleExample.Criteria criteria = roleExample.createCriteria();
+			if(!StringUtil.isBlank(role.getName())){
+				criteria.andNameLike("%"+role.getName()+"%");
+			}
+		}
+		int cnt = systemRoleMapper.countByExample(roleExample);
+		List<SystemRole> list = systemRoleMapper.selectByExample(roleExample,
+				rowBounds);
+		dataMap.put("total", cnt);
+		dataMap.put("rows", list);
+		return dataMap;
+	}
+
+	@Override
+	public Map<String, Object> deleteRole(String[] ids) {
+		Map<String, Object> dataMap = new HashMap<String, Object>();
+		try {
+			deleteRoleTransactional(ids);
+			dataMap.put(Constants.SUCCESS, Constants.SUCCESS_MSG);
+		} catch (RuntimeException e) {
+			dataMap.put(Constants.ERROR, Constants.ERROR_MSG);
+			logger.error(e.getMessage(), e);
+		}
+		return dataMap;
+	}
+	@Transactional(propagation = Propagation.REQUIRED)
+	private void deleteRoleTransactional(String[] ids){
+		for(int i=0;i<ids.length;i++){
+			// 第一步：删除角色
+			systemRoleMapper.deleteByPrimaryKey(ids[i]);
+			// 第二步：删除用户角色绑定关系
+			SystemUserRoleLinkExample userRoleLinkExample = new SystemUserRoleLinkExample();
+			cn.zno.smse.pojo.SystemUserRoleLinkExample.Criteria c1 = userRoleLinkExample.createCriteria();
+			c1.andRoleIdEqualTo(ids[i]);
+			systemUserRoleLinkMapper.deleteByExample(userRoleLinkExample);
+			// 第三步：删除角色菜单绑定关系
+			SystemRoleMenuLinkExample roleMenuLinkExample = new SystemRoleMenuLinkExample();
+			cn.zno.smse.pojo.SystemRoleMenuLinkExample.Criteria c2 = roleMenuLinkExample.createCriteria();
+			c2.andRoleIdEqualTo(ids[i]);
+			systemRoleMenuLinkMapper.deleteByExample(roleMenuLinkExample);
+		}
+	}
+
 
 }

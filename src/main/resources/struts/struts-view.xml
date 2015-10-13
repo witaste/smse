@@ -9,11 +9,26 @@
                 <param name="root">jsonObject</param>  
             </result> 
 		</global-results>
+		<!-- 系统管理 -->
 		<action name="system!*" method="{1}" class="cn.zno.smse.action.SystemAction">
-            <result name="main" type="dispatcher">/jsp/pages/main.jsp</result>
-            <result name="menuL" type="dispatcher">/jsp/pages/menuL.jsp</result>
-            <result name="menuR" type="dispatcher">/jsp/pages/menuR.jsp</result>
+            
+            <result name="main" type="dispatcher">/jsp/pages/system/main.jsp</result>
+            
+            <result name="menuL" type="dispatcher">/jsp/pages/system/menu/menuL.jsp</result>
+            <result name="menuR" type="dispatcher">/jsp/pages/system/menu/menuR.jsp</result>
+            
+            <result name="userAdd" type="dispatcher">/jsp/pages/system/user/userAdd.jsp</result>
+            <result name="userDetail" type="dispatcher">/jsp/pages/system/user/userDetail.jsp</result>
+            <result name="userEdit" type="dispatcher">/jsp/pages/system/user/userEdit.jsp</result>
+            <result name="userList" type="dispatcher">/jsp/pages/system/user/userList.jsp</result>
+            
+            <result name="roleAdd" type="dispatcher">/jsp/pages/system/role/roleAdd.jsp</result>
+            <result name="roleDetail" type="dispatcher">/jsp/pages/system/role/roleDetail.jsp</result>
+            <result name="roleEdit" type="dispatcher">/jsp/pages/system/role/roleEdit.jsp</result>
+            <result name="roleList" type="dispatcher">/jsp/pages/system/role/roleList.jsp</result>
         </action>
+        
+		<!-- 测试 -->
         <action name="person!*" method="{1}" class="cn.zno.smse.action.PersonAction">
             <result name="add" type="dispatcher">/jsp/pages/person/personAdd.jsp</result>
             <result name="detail" type="dispatcher">/jsp/pages/person/personDetail.jsp</result>

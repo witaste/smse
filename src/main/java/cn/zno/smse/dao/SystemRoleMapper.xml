@@ -249,4 +249,11 @@
 	    ON LI.ROLE_ID = RO.ID
 	 WHERE LI.MENU_ID = #{menuId,jdbcType=VARCHAR}
   </select>
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.String">
+   SELECT <include refid="Base_Column_List" />
+	  FROM SMSE_USER_ROLE_LINK LI
+	  LEFT JOIN SMSE_ROLE RO
+	    ON LI.ROLE_ID = RO.ID
+	 WHERE LI.USER_ID = #{userId,jdbcType=VARCHAR}
+  </select>
 </mapper>
