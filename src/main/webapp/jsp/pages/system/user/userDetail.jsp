@@ -94,7 +94,7 @@
 </body>
 <script type="text/javascript">
 	function back() {
-		window.parent.toTab('用户列表', 'system!initUserList');
+		window.parent.toTab('用户列表', 'system!initUserList.html');
 	}
 </script>
 </html>

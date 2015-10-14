@@ -10,7 +10,7 @@
 $(document).ready(function() {
 	// 菜单 
 	$('#tree').tree({
-		url:'system!getTreeNode',
+		url:'system!getTreeNode.html',
 		method:'get',
 		animate:false,
 		lines:true,
@@ -31,14 +31,14 @@ $(document).ready(function() {
 function detail(){
 	var node = $('#tree').tree('getSelected');
 	if(node){
-		$("#treeDetail").attr("src","system!initMenu?flag=R&menu.id="+node.id);
+		$("#treeDetail").attr("src","system!initMenu.html?flag=R&menu.id="+node.id);
 	}
 }
 
 function edit(){
 	var node = $('#tree').tree('getSelected');
 	if (node) {
-		$("#treeDetail").attr("src","system!initMenu?flag=U&menu.id="+node.id);
+		$("#treeDetail").attr("src","system!initMenu.html?flag=U&menu.id="+node.id);
 	}
 }
 
@@ -47,8 +47,8 @@ function del(){
 	if (node) {
 		$.messager.confirm('确认','确定要删除选中的节点及其子节点吗',function(r){
 		    if (r){
-		    	$.get("system!initMenu?flag=D&menu.id="+node.id, function(data){
-		    		  window.parent.location.href = "system!initMain";
+		    	$.get("system!initMenu.html?flag=D&menu.id="+node.id, function(data){
+		    		  window.parent.location.href = "system!initMain.html";
 		    	});
 		    }
 		});
@@ -62,14 +62,14 @@ function addSameLevel(){
 		if(node.attributes.pid != undefined){
 			param += "&menu.pid="+node.attributes.pid;
 		}
-		$("#treeDetail").attr("src","system!initMenu" + param);
+		$("#treeDetail").attr("src","system!initMenu.html" + param);
 	}
 }
 
 function addNextLevel(){
 	var node = $('#tree').tree('getSelected');
 	if(node){
-		$("#treeDetail").attr("src","system!initMenu?flag=ANL&menu.pid="+node.id);
+		$("#treeDetail").attr("src","system!initMenu.html?flag=ANL&menu.pid="+node.id);
 	}
 }
 </script>

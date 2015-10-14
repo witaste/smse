@@ -23,7 +23,7 @@
 		
 		// 菜单 
 		$('#tree').tree({
-			url:'system!getTreeNode',
+			url:'system!getTreeNode.html',
 			method:'get',
 			animate:false,
 			lines:true,

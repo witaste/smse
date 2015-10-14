@@ -35,7 +35,7 @@
 </body>
 <script type="text/javascript">
 	function back() {
-		window.parent.toTab('角色列表', 'system!initRoleList');
+		window.parent.toTab('角色列表', 'system!initRoleList.html');
 	}
 </script>
 </html>

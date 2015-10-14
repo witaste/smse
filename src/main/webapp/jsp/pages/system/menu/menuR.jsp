@@ -15,7 +15,7 @@
 			remoteSort:false,
 			pagination:false,
 			toolbar: '#ziyuan_toolbar',
-			url:'system!getAccessPermission',
+			url:'system!getAccessPermission.html',
 			method:'post',
 			loadMsg:'数据加载中..&nbsp;&nbsp;&nbsp;&nbsp;',
 			queryParams: {
@@ -30,7 +30,7 @@
 			remoteSort:false,
 			pagination:false,
 			toolbar: '#juese_toolbar',
-			url:'system!getRole',
+			url:'system!getRole.html',
 			method:'post',
 			loadMsg:'数据加载中..&nbsp;&nbsp;&nbsp;&nbsp;',
 			queryParams: {
@@ -51,7 +51,7 @@
 			remoteSort:false,
 			pagination:true,
 			singleSelect:false,
-			url:'system!getRoleAll',
+			url:'system!getRoleAll.html',
 			method:'post',
 			loadMsg:'数据加载中..&nbsp;&nbsp;&nbsp;&nbsp;'
 		});
@@ -75,10 +75,11 @@
 </head>
 <body>
 	<div class="easyui-panel" title="菜单" style="width: 400px;">
-		<form id ="menuForm" action="system!saveMenu" method="post" enctype="multipart/form-data">
+		<form id ="menuForm" action="system!saveMenu.html" method="post" enctype="multipart/form-data">
 			<table>
 				<s:hidden id="menuId" name="menu.id" />
 				<s:hidden id="menuPId" name="menu.pid" />
+				<s:hidden name="menu.show" value="1" />
 				<s:hidden id="flag" name="flag" />
 				<s:hidden id="changes" name="changes" />
 				<s:textfield name="menu.name" label="菜单名称" />
@@ -273,13 +274,13 @@
 		
 		$('#menuForm').form('submit', {
 		    success:function(data){
-		    	window.parent.location.href = "system!initMenu";
+		    	window.parent.location.href = "system!initMenu.html";
 		    }
 		});
 		// 保存数据end ----------->
 	}
 	function back(){
-		window.parent.location.href = "system!initMenu";
+		window.parent.location.href = "system!initMenu.html";
 	}
 </script>
 </body>

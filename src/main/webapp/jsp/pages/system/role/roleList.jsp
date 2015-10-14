@@ -33,7 +33,7 @@
 				rownumbers:true,
 				remoteSort:false,
 				pagination:true,
-				url:'system!getRoleList',
+				url:'system!getRoleList.html',
 				method:'post',
 				loadMsg:'数据加载中..&nbsp;&nbsp;&nbsp;&nbsp;'">
 		<thead>
@@ -70,7 +70,7 @@
 					}
 					$.ajax({
 					   type: "POST",
-					   url: "system!deleteRole",
+					   url: "system!deleteRole.html",
 					   data: param,
 					   success: function(msg){
 						   // alert(JSON.stringify(msg));
@@ -85,10 +85,10 @@
 			});
 		}
 		function retrieveData(id){
-			window.parent.toTab('角色明细','system!initRoleDetail?systemRole.id=' + id);
+			window.parent.toTab('角色明细','system!initRoleDetail.html?systemRole.id=' + id);
 		}
 		function editData(id){
-			window.parent.toTab('角色编辑','system!initRoleEdit?systemRole.id=' + id);
+			window.parent.toTab('角色编辑','system!initRoleEdit.html?systemRole.id=' + id);
 		}
 		function showMsg(msg){
 			if(msg.success != undefined){

@@ -34,7 +34,7 @@
 				rownumbers:true,
 				remoteSort:false,
 				pagination:true,
-				url:'system!getUserList',
+				url:'system!getUserList.html',
 				method:'post',
 				loadMsg:'数据加载中..&nbsp;&nbsp;&nbsp;&nbsp;'
 				">
@@ -75,7 +75,7 @@
 					}
 					$.ajax({
 					   type: "POST",
-					   url: "system!deleteUser",
+					   url: "system!deleteUser.html",
 					   data: param,
 					   success: function(msg){
 						   // alert(JSON.stringify(msg));
@@ -90,10 +90,10 @@
 			});
 		}
 		function retrieveData(id){
-			window.parent.toTab('用户明细','system!initUserDetail?user.id=' + id);
+			window.parent.toTab('用户明细','system!initUserDetail.html?user.id=' + id);
 		}
 		function editData(id){
-			window.parent.toTab('用户编辑','system!initUserEdit?user.id=' + id);
+			window.parent.toTab('用户编辑','system!initUserEdit.html?user.id=' + id);
 		}
 		function showMsg(msg){
 			if(msg.success != undefined){
