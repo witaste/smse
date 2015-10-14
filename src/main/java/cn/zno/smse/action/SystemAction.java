@@ -79,7 +79,7 @@ public class SystemAction extends AbstractBaseAction {
 	}
 	// 异步加载[该菜单所属]角色信息
 	public String getRole(){
-		jsonObject = systemService.getRole(menu);
+		jsonObject = systemService.getRoleRecord(menu);
 		return JSON;
 	}
 	// 异步加载全部角色信息

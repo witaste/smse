@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +19,7 @@ import cn.zno.smse.service.PersonService;
 @Service
 public class PersonServiceImpl implements PersonService {
 	
-	private final Logger logger = LoggerFactory.getLogger(getClass());
+//	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Autowired
 	private PersonMapper personMapper;

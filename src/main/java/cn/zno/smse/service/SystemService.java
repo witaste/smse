@@ -15,7 +15,7 @@ public interface SystemService {
 	public JSONArray getTreeNode();
 	public SystemMenu getMenu(SystemMenu menu);
 	public Map<String,Object> getAccessPermission(SystemMenu menu);
-	public Map<String,Object> getRole(SystemMenu menu);
+	public Map<String,Object> getRoleRecord(SystemMenu menu);
 	public Map<String,Object> getRoleAll(SystemRole role, RowBounds rowBounds);
 	public Map<String,Object> saveMenu(SystemMenu menu,String changes);
 	public Map<String,Object> deleteMenu(SystemMenu menu);
