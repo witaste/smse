@@ -3,7 +3,7 @@
         "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
         "http://struts.apache.org/dtds/struts-2.3.dtd">
 <struts>
-    <package name="pages" namespace="/pages" extends="struts-default,json-default">
+    <package name="smse-default" namespace="/" extends="struts-default,json-default">
 		<global-results>
 			<result name="json" type="json" >  
                 <param name="root">jsonObject</param>  
@@ -27,6 +27,11 @@
             <result name="roleEdit" type="dispatcher">/jsp/pages/system/role/roleEdit.jsp</result>
             <result name="roleList" type="dispatcher">/jsp/pages/system/role/roleList.jsp</result>
         </action>
+		<!-- 登录 -->
+		<action name="login!*" method="{1}" class="cn.zno.smse.action.LoginAction">
+			<result name="success" type="redirect">system!initMain.html</result>
+			<result name="login" type="dispatcher">/login.jsp</result>
+		</action>
         
 		<!-- 测试 -->
         <action name="person!*" method="{1}" class="cn.zno.smse.action.PersonAction">
@@ -35,6 +40,5 @@
             <result name="edit" type="dispatcher">/jsp/pages/person/personEdit.jsp</result>
             <result name="list" type="dispatcher">/jsp/pages/person/personList.jsp</result>
         </action>
-
-    </package>
+	</package>
 </struts>

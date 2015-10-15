@@ -5,7 +5,7 @@
 <head>
 <%@ include file="/jsp/common/include/easyui_nopager.jsp"%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>Detail</title>
 </head>
 <body>
 

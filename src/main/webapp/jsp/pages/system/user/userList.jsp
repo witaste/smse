@@ -5,6 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>List</title>
 <%@ include file="/jsp/common/include/easyui.jsp"%>
 </head>
 <body>

@@ -93,4 +93,6 @@ public interface SystemMenuMapper {
      * @mbggenerated
      */
     int updateByPrimaryKey(SystemMenu record);
+    
+    List<SystemMenu> selectForUser(String username);
 }

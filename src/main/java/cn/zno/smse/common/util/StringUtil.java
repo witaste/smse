@@ -9,4 +9,12 @@ public class StringUtil {
 			return true;
 		return false;
 	}
+	
+	public static boolean isNotBlank(String str){
+		if (str == null)
+			return false;
+		if (str.trim().equals(""))
+			return false;
+		return true;
+	}
 }

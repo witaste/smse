@@ -5,7 +5,7 @@
 <head>
 <%@ include file="/jsp/common/include/easyui_nopager.jsp"%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>main</title>
+<title>SMSE - help me help you </title>
 <script type="text/javascript">
 
 	$(document).ready(function() {
@@ -77,6 +77,14 @@
 		}
 		return false;
 	}
+	// 退出登录
+	function logout() {
+		$.messager.confirm('确认','确定要退出系统吗',function(r){
+		    if (r){
+		    	window.parent.location.href = 'login!logout.html';
+		    }
+		});
+	}
 </script>
 <style type="text/css">
 </style>
@@ -91,13 +99,13 @@
 			<div style='position: absolute; top: 0; right: 0px; z-index: 2;'>
 				<div style="display: inline-block; width: auto; height: 30px; color: #FFF; margin-top: 0px;">
 					<span style="padding-left: 5px; line-height: 30px; color: #ffffff; margin-top: 3px; display: inline-block">
-						admin 
+						<s:property value="user.name" /> 
 					</span>
 					<span onclick="javascript:void(0)" style="cursor: hand; color: #ffffff; cursor: pointer;">
 						修改密码 
 					</span>
 					<span>|</span>
-					<span onclick="javascript:void(0)" style="cursor: hand; color: #ffffff; cursor: pointer; padding-right: 40px;">
+					<span onclick="logout()" style="cursor: hand; color: #ffffff; cursor: pointer; padding-right: 40px;">
 						注销 
 					</span>
 				</div>

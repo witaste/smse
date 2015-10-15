@@ -1,12 +1,13 @@
 package cn.zno.smse.dao;
 
-import cn.zno.smse.pojo.SystemUser;
-import cn.zno.smse.pojo.SystemUserExample;
-
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
+
+import cn.zno.smse.pojo.SystemUser;
+import cn.zno.smse.pojo.SystemUserExample;
 
 public interface SystemUserMapper {
     /**
@@ -97,4 +98,6 @@ public interface SystemUserMapper {
      * @mbggenerated
      */
     int updateByPrimaryKey(SystemUser record);
+    
+    public SystemUser selectByPassword(Map<String,String> paramMap);
 }

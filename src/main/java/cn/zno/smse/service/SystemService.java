@@ -2,11 +2,13 @@ package cn.zno.smse.service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import net.sf.json.JSONArray;
 
 import org.apache.ibatis.session.RowBounds;
 
+import cn.zno.smse.pojo.SystemAccessPermission;
 import cn.zno.smse.pojo.SystemMenu;
 import cn.zno.smse.pojo.SystemRole;
 import cn.zno.smse.pojo.SystemUser;
@@ -34,4 +36,9 @@ public interface SystemService {
 	public List<SystemRole> getRoleList();
 	
 
+	public Set<String> getRoleSet(String username);
+	public Set<String> getPermissionSet(String username);
+	public List<SystemAccessPermission> getPermissionAll();
+	public SystemUser getUserByPassword(String username,String password);
+	
 }

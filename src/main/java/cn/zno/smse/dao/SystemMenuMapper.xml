@@ -304,4 +304,19 @@
       SORT = #{sort,jdbcType=DECIMAL}
     where ID = #{id,jdbcType=CHAR}
   </update>
+  
+  <select id="selectForUser" resultMap="BaseResultMap" parameterType="java.lang.String" >
+   SELECT ME.*
+	  FROM SMSE_USER US
+	  LEFT JOIN SMSE_USER_ROLE_LINK L1
+	    ON US.ID = L1.USER_ID
+	  LEFT JOIN SMSE_ROLE RO
+	    ON L1.ROLE_ID = RO.ID
+	  LEFT JOIN SMSE_ROLE_MENU_LINK L2
+	    ON L2.ROLE_ID = RO.ID
+	  LEFT JOIN SMSE_MENU ME
+	    ON L2.MENU_ID = ME.ID
+	 WHERE US.USERNAME = #{username,jdbcType=VARCHAR}
+	 ORDER BY SORT ASC
+  </select>
 </mapper>

@@ -93,4 +93,6 @@ public interface SystemAccessPermissionMapper {
      * @mbggenerated
      */
     int updateByPrimaryKey(SystemAccessPermission record);
+    
+    public List<SystemAccessPermission> selectByUsername(String username);
 }

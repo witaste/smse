@@ -2,6 +2,7 @@ package cn.zno.smse.action;
 
 import java.util.List;
 
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import cn.zno.smse.pojo.SystemMenu;
@@ -30,6 +31,7 @@ public class SystemAction extends AbstractBaseAction {
 
 	// 跳转到 main.jsp
 	public String initMain() {
+		user = (SystemUser)SecurityUtils.getSubject().getPrincipal();
 		return "main";
 	}
 
@@ -172,7 +174,6 @@ public class SystemAction extends AbstractBaseAction {
 		jsonObject = systemService.getRoleList(systemRole, getRowBounds());
 		return JSON;
 	}
-	
 	
 	//--------------------------------
 	//-------setter & getter---------

@@ -10,7 +10,7 @@
 <body>
 
 	<div class="easyui-panel" style="width: 300px; padding: 10px;">
-		<form id="ff" action="system!saveRoleAdd" method="post"
+		<form id="ff" action="system!saveRoleAdd.html" method="post"
 			enctype="multipart/form-data">
 			<table>
 				<tr>
@@ -46,7 +46,7 @@
 			$('#ff').submit();
 		}
 		function back(){
-			window.parent.toTab('角色列表','system!initRoleList');
+			window.parent.toTab('角色列表','system!initRoleList.html');
 		}
 	</script>
 </body>

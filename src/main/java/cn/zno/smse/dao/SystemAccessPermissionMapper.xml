@@ -259,4 +259,19 @@
       MENU_ID = #{menuId,jdbcType=CHAR}
     where ID = #{id,jdbcType=CHAR}
   </update>
+    <select id="selectByUsername" resultMap="BaseResultMap" parameterType="java.lang.String">
+	SELECT ac.*
+	  FROM SMSE_USER US
+	  LEFT JOIN SMSE_USER_ROLE_LINK L1
+	    ON US.ID = L1.USER_ID
+	  LEFT JOIN SMSE_ROLE RO
+	    ON RO.ID = L1.ROLE_ID
+	  LEFT JOIN SMSE_ROLE_MENU_LINK L2
+	    ON L2.ROLE_ID = RO.ID
+	  LEFT JOIN SMSE_MENU ME
+	    ON ME.ID = L2.MENU_ID
+	  LEFT JOIN SMSE_ACCESS_PERMISSION AC
+	    ON ME.ID = AC.MENU_ID
+	  WHERE US.USERNAME = #{username,jdbcType=VARCHAR}
+  </select>
 </mapper>

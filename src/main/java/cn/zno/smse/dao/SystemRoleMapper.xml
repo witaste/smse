@@ -256,4 +256,14 @@
 	    ON LI.ROLE_ID = RO.ID
 	 WHERE LI.USER_ID = #{userId,jdbcType=VARCHAR}
   </select>
+  <select id="selectByUsername" resultMap="BaseResultMap" parameterType="java.lang.String">
+	 SELECT RO.*
+	  FROM SMSE_ROLE RO
+	  LEFT JOIN SMSE_USER_ROLE_LINK LI
+	    ON RO.ID = LI.ROLE_ID
+	  LEFT JOIN SMSE_USER US
+	    ON LI.USER_ID = US.ID
+	 WHERE US.USERNAME = #{username,jdbcType=VARCHAR}
+  </select>
+  
 </mapper>

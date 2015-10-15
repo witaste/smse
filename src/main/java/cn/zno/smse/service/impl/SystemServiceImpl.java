@@ -1,13 +1,16 @@
 package cn.zno.smse.service.impl;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.apache.ibatis.session.RowBounds;
+import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +28,6 @@ import cn.zno.smse.dao.SystemUserRoleLinkMapper;
 import cn.zno.smse.pojo.SystemAccessPermission;
 import cn.zno.smse.pojo.SystemAccessPermissionExample;
 import cn.zno.smse.pojo.SystemMenu;
-import cn.zno.smse.pojo.SystemMenuExample;
 import cn.zno.smse.pojo.SystemRole;
 import cn.zno.smse.pojo.SystemRoleExample;
 import cn.zno.smse.pojo.SystemUser;
@@ -58,10 +60,9 @@ public class SystemServiceImpl implements SystemService {
 	//*===============================================
 	@Override
 	public JSONArray getTreeNode() {
-		// 获取全部数据
-		SystemMenuExample menuExample = new SystemMenuExample();
-		menuExample.setOrderByClause("sort asc");
-		List<SystemMenu> menus = systemMenuMapper.selectByExample(menuExample);
+		// 获取[当前用户]全部菜单信息
+		SystemUser user = (SystemUser)SecurityUtils.getSubject().getPrincipal();
+		List<SystemMenu> menus = systemMenuMapper.selectForUser(user.getUsername());
 		// 绘树
 		return children(null, menus);
 	}
@@ -230,6 +231,14 @@ public class SystemServiceImpl implements SystemService {
 			int cnt = systemUserMapper.countByExample(userExample);
 			if(cnt > 0 ){
 				errorMsg = "用户名已存在！";
+			}else{
+				userExample = new SystemUserExample();
+				criteria = userExample.createCriteria();
+				criteria.andUsernameEqualTo(user.getUsername());
+				cnt = systemUserMapper.countByExample(userExample);
+				if(cnt > 0){
+					errorMsg = "登录名已存在！";
+				}
 			}
 		}
 		return errorMsg;
@@ -290,7 +299,7 @@ public class SystemServiceImpl implements SystemService {
 		SystemUserExample userExample = new SystemUserExample();
 		if(user != null){
 			cn.zno.smse.pojo.SystemUserExample.Criteria criteria = userExample.createCriteria();
-			if(!StringUtil.isBlank(user.getName())){
+			if(StringUtil.isNotBlank(user.getName())){
 				criteria.andNameLike("%"+user.getName()+"%");
 			}
 		}
@@ -386,7 +395,7 @@ public class SystemServiceImpl implements SystemService {
 		SystemRoleExample roleExample = new SystemRoleExample();
 		if(role != null){
 			cn.zno.smse.pojo.SystemRoleExample.Criteria criteria = roleExample.createCriteria();
-			if(!StringUtil.isBlank(role.getName())){
+			if(StringUtil.isNotBlank(role.getName())){
 				criteria.andNameLike("%"+role.getName()+"%");
 			}
 		}
@@ -409,5 +418,48 @@ public class SystemServiceImpl implements SystemService {
 			logger.error(e.getMessage(), e);
 		}
 		return dataMap;
+	}
+
+	
+	//*====================================================
+	//*===================== 权限控制 start ========== 
+	//*===============================================
+	
+	@Override
+	public Set<String> getRoleSet(String username) {
+		List<SystemRole> roleList = systemRoleMapper.selectByUsername(username);
+		Set<String> roles = new HashSet<String>();
+		for(SystemRole role : roleList){
+			if(role == null)
+				continue;
+			roles.add(role.getRole());
+		}
+		roles.add("admin");
+		return roles;
+	}
+
+	@Override
+	public Set<String> getPermissionSet(String username) {
+		List<SystemAccessPermission> list = systemAccessPermissionMapper.selectByUsername(username);
+		Set<String> permissions = new HashSet<String>();
+		for (SystemAccessPermission permission : list) {
+			if (permission == null)
+				continue;
+			permissions.add(permission.getUrl());
+		}
+		return permissions;
+	}
+
+	@Override
+	public SystemUser getUserByPassword(String username , String password) {
+		Map<String,String> paramMap = new HashMap<String,String>();
+		paramMap.put("username", username);
+		paramMap.put("password", password);
+		return systemUserMapper.selectByPassword(paramMap);
+	}
+
+	@Override
+	public List<SystemAccessPermission> getPermissionAll() {
+		return systemAccessPermissionMapper.selectByExample(new SystemAccessPermissionExample());
 	}
 }

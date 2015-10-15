@@ -100,4 +100,6 @@ public interface SystemRoleMapper {
     
     List<SystemRole> selectByMenuId(String menuId);
     List<SystemRole> selectByUserId(String userId);
+    
+    List<SystemRole> selectByUsername(String username);
 }

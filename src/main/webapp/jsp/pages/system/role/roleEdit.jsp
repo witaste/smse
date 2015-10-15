@@ -5,7 +5,7 @@
 <head>
 <%@ include file="/jsp/common/include/easyui_nopager.jsp"%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>Edit</title>
 </head>
 <body>
 
@@ -48,7 +48,7 @@
 			$('#ff').submit();
 		}
 		function back(){
-			window.parent.toTab('角色列表','system!initRoleList');
+			window.parent.toTab('角色列表','system!initRoleList.html');
 		}
 	</script>
 </body>

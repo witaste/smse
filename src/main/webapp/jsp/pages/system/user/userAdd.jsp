@@ -10,7 +10,7 @@
 <body>
 
 	<div class="easyui-panel" style="width: 300px; padding: 10px;">
-		<form id="ff" action="system!saveUserAdd" method="post"
+		<form id="ff" action="system!saveUserAdd.html" method="post"
 			enctype="multipart/form-data">
 			<table>
 				<tr>
@@ -103,7 +103,7 @@
 			$('#ff').submit();
 		}
 		function back(){
-			window.parent.toTab('用户列表','system!initUserList');
+			window.parent.toTab('用户列表','system!initUserList.html');
 		}
 	</script>
 </body>

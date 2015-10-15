@@ -5,12 +5,12 @@
 <head>
 <%@ include file="/jsp/common/include/easyui_nopager.jsp"%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>Edit</title>
 </head>
 <body>
 
 	<div class="easyui-panel" style="width: 300px; padding: 10px;">
-		<form id="ff" action="system!saveUserEdit" method="post"
+		<form id="ff" action="system!saveUserEdit.html" method="post"
 			enctype="multipart/form-data">
 			<table>
 				<tr>
@@ -104,7 +104,7 @@
 			$('#ff').submit();
 		}
 		function back(){
-			window.parent.toTab('用户列表','system!initUserList');
+			window.parent.toTab('用户列表','system!initUserList.html');
 		}
 	</script>
 </body>

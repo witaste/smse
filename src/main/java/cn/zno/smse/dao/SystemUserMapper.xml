@@ -291,4 +291,12 @@
       EMAIL = #{email,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=CHAR}
   </update>
+  <select id="selectByPassword" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from SMSE_USER
+    where USERNAME = #{username,jdbcType=VARCHAR} AND PASSWORD = #{password,jdbcType=VARCHAR}
+  </select>
+  
+  
 </mapper>
