@@ -28,6 +28,7 @@ import cn.zno.smse.dao.SystemUserRoleLinkMapper;
 import cn.zno.smse.pojo.SystemAccessPermission;
 import cn.zno.smse.pojo.SystemAccessPermissionExample;
 import cn.zno.smse.pojo.SystemMenu;
+import cn.zno.smse.pojo.SystemMenuExample;
 import cn.zno.smse.pojo.SystemRole;
 import cn.zno.smse.pojo.SystemRoleExample;
 import cn.zno.smse.pojo.SystemUser;
@@ -60,9 +61,17 @@ public class SystemServiceImpl implements SystemService {
 	//*===============================================
 	@Override
 	public JSONArray getTreeNode() {
-		// 获取[当前用户]全部菜单信息
+		List<SystemMenu> menus = null;
 		SystemUser user = (SystemUser)SecurityUtils.getSubject().getPrincipal();
-		List<SystemMenu> menus = systemMenuMapper.selectForUser(user.getUsername());
+		// root 用户能查看全部菜单
+		if(user.getUsername().equals("root")){
+			SystemMenuExample menuExample = new SystemMenuExample();
+			menuExample.setOrderByClause("sort asc");
+			menus = systemMenuMapper.selectByExample(menuExample);
+		}else{
+			// 获取[当前用户]全部菜单信息
+			menus = systemMenuMapper.selectForUser(user.getUsername());
+		}
 		// 绘树
 		return children(null, menus);
 	}
