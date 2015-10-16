@@ -34,22 +34,28 @@
 				var s = '';
 				if(node.attributes.isLeaf){
 					s = '<a href=\"'+url+'\" onclick=\"return toTab(\''+text+'\',\''+url+'\')\">'+text+'</a>';
+				}else if(node.attributes.pid == undefined){
+					s = '<b><a href='+url+'><span style="font:italic bold 50px">'+text+'</span></a></b>';
 				}else{
 					s = '<a href='+url+'>'+text+'</a>';
 				}
 				return s;
 			},
 			onClick: function(node){
-				if(node.state == 'open'){
+				if(node.state == 'open'){// 关闭该节点时先关闭子节点    
 					var children = $('#tree').tree('getChildren',node.target);
 					for(key in children){
 						$('#tree').tree('collapse',children[key].target);
 					}
+				}else{ //打开该节点时先关闭所有节点再展开到该节点  
+					$('#tree').tree('collapseAll');
+					$('#tree').tree('expandTo', node.target);
 				}
-				$('#tree').tree('toggle', node.target);
+				$('#tree').tree('toggle', node.target);// 关闭或展开该节点的子节点 
 			},
 			onLoadSuccess:function(node,data){
 				$("span.tree-icon").hide();
+				$("#tree a").css({"text-decoration":"none","color": "#000"});
 			}
 		});
 	});

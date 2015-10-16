@@ -8,27 +8,23 @@
 <title>登录 - SMSE</title>
 </head>
 <body>
-	<s:actionerror cssStyle="color: red"/>
-	<s:actionmessage cssStyle="color: green"/>
-	<div class="easyui-panel" style="width: 300px; padding: 10px;">
+	<div class="easyui-panel" style="width: 300px; position:absolute; right:198px; top:140px">
 		<form id="ff" action="login!login.html" method="post"
 			enctype="multipart/form-data">
 			<table>
 				<tr>
 					<td colspan="2">
-						<b>登录</b>
-						<hr/>
+						<s:actionerror  cssStyle="color: red"/>
+						<s:actionmessage cssStyle="color: green"/>
 					</td>
 				</tr>
 				<tr>
 					<td align="left">账号:</td>
-					<td><input class="easyui-textbox" name="user.username" data-options="iconCls:'icon-man',iconWidth:38,prompt:'请输入'"></td>
+					<td><input class="easyui-textbox" name="user.username" style="width:155px" data-options="iconCls:'icon-man',iconWidth:38,prompt:'请输入'"></td>
 				</tr>
 				<tr>
 					<td align="left">密码:</td>
-					<td><input class="easyui-textbox" name="user.password" type="password" data-options="iconCls:'icon-lock',iconWidth:38"></td>
-				</tr>
-				<tr>
+					<td><input class="easyui-textbox" name="user.password" type="password" style="width:155px" data-options="iconCls:'icon-lock',iconWidth:38"></td>
 					<td><a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="login()">登录</a></td>
 				</tr>
 			</table>
