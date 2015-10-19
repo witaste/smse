@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<task:executor id="threadPoolTaskExecutor" pool-size="1" />
+	<bean name="quartzScheduler" lazy-init="false"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="jobFactory">
+			<bean class="cn.zno.smse.common.quartz.SpringBeanJobFactory" />
+		</property>
+<!-- 		<property name="dataSource"> -->
+<!-- 			<ref bean="dataSourceAlpha" /> -->
+<!-- 		</property> -->
+<!-- 		<property name="configLocation" value="classpath:quartz/quartz.properties" /> -->
+		<property name="applicationContextSchedulerContextKey" value="applicationContextKey" />
+		<property name="startupDelay" value="10" />
+		<property name="overwriteExistingJobs" value="true" />
+		<property name="exposeSchedulerInRepository" value="true" />
+		<property name="taskExecutor" ref="threadPoolTaskExecutor" />
+
+		<property name="triggers">
+			<list>
+				<!-- 增加定时任务需要在这里添加触发器 -->
+				<ref bean="cronTrigger_1" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- 这三个组成一个定时任务 -->
+	<bean id="cronTrigger_1"
+		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="jobDetail_1" />
+		<property name="cronExpression" value="* * * * * ?" />
+	</bean>
+	<bean id="jobDetail_1"
+		class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="cn.zno.smse.job.SomeJob" />
+	</bean>
+	<bean id="someJob" class="cn.zno.smse.job.SomeJob" />
+</beans>
