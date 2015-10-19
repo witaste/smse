@@ -10,7 +10,7 @@
 <body>
 
 	<div class="easyui-panel" style="width: 300px; padding: 10px;">
-		<form id="ff" action="system!saveRoleEdit" method="post"
+		<form id="ff" action="system!saveRoleEdit.html" method="post"
 			enctype="multipart/form-data">
 			<table>
 				<tr>
