@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 
 public class SomeJob implements Job {
 
-	private static final Logger logger = LoggerFactory.getLogger(SomeJob.class);
+	private final Logger logger = LoggerFactory.getLogger(SomeJob.class);
 	
 	@Override
 	public void execute(JobExecutionContext context)

@@ -33,7 +33,7 @@
 	<bean id="cronTrigger_1"
 		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
 		<property name="jobDetail" ref="jobDetail_1" />
-		<property name="cronExpression" value="* * * * * ?" />
+		<property name="cronExpression" value="0 0 0 * * ?" />
 	</bean>
 	<bean id="jobDetail_1"
 		class="org.springframework.scheduling.quartz.JobDetailFactoryBean">

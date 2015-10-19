@@ -2,6 +2,14 @@ package cn.zno.smse.common.constants;
 
 public class Constants {
 	
+	/*	
+  		system property
+	 */
+	public static final String LINE_SEPARATOR = System.getProperty("line.separator");
+	
+	/*	
+		msg
+	 */
 	public static final String SUCCESS = "success";
 	public static final String SUCCESS_MSG = "处理成功";
 	public static final String SUCCESS_INSERT = "数据插入成功！";
