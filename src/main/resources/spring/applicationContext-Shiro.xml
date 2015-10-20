@@ -20,6 +20,8 @@
 				/images/** = anon
 				# 登录
 				/login!login.html = anon
+				# web service
+				/rest/** = anon
 			</value>
 		</property>
 	</bean>
