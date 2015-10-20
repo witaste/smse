@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
 		<property name="securityManager" ref="webSecurityManager" />
 		<property name="loginUrl" value="/login!login.html" />
-		<property name="successUrl" value="/system!initMain.html" />
+		<property name="successUrl" value="/system!main.html" />
 		<property name="unauthorizedUrl" value="/login!login.html" />
 		<property name="filterChainDefinitionMap" ref="chainDefinitionSectionMetaSource" />
 	</bean>
-	
-	<bean id="chainDefinitionSectionMetaSource"	class="cn.zno.smse.common.security.ChainDefinitionSectionMetaSource">
+
+	<bean id="chainDefinitionSectionMetaSource"
+		class="cn.zno.smse.common.security.ChainDefinitionSectionMetaSource">
 		<property name="filterChainDefinitions">
 			<value>
 				# 图片等
@@ -26,9 +27,11 @@
 		</property>
 	</bean>
 
-	<bean id="webSecurityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
-		<property name="realm" ref="dbRealm" />
+	<bean id="webSecurityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager"
+		p:realm-ref="dbRealm" />
+	<bean id="dbRealm" class="cn.zno.smse.common.security.DataBaseRealm">
+		<property name="cachingEnabled" value="false"></property>
+		<property name="authenticationCachingEnabled" value="false"></property>
 	</bean>
-	<bean id="dbRealm" class="cn.zno.smse.common.security.DataBaseRealm"></bean>
 	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
 </beans>

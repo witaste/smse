@@ -31,7 +31,7 @@
 		<!-- 登录 -->
 		<action name="login!*" method="{1}" class="cn.zno.smse.action.LoginAction">
 			<interceptor-ref name="smseDefaultStack" />
-			<result name="success" type="redirect">system!initMain.html</result>
+			<result name="success" type="redirect">system!main.html</result>
 			<result name="login" type="dispatcher">/jsp/pages/system/login.jsp</result>
 		</action>
         

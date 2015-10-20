@@ -48,7 +48,7 @@ function del(){
 		$.messager.confirm('确认','确定要删除选中的节点及其子节点吗',function(r){
 		    if (r){
 		    	$.get("system!initMenu.html?flag=D&menu.id="+node.id, function(data){
-		    		  window.parent.location.href = "system!initMain.html";
+		    		  window.parent.location.href = "system!main.html";
 		    	});
 		    }
 		});

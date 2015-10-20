@@ -84,7 +84,6 @@
 							   $("#dg").datagrid("reload");
 						   }
 						   showMsg(msg);
-						   setTimeout("closeMsg()",4000); 
 					   }
 					});
 			    }//end if(r) 
@@ -104,6 +103,7 @@
 				$("#msg").text(msg.error);
 				$("#msg").css("color","red");
 			}
+			setTimeout("closeMsg()",4000); 
 		}
 		function closeMsg(){
 			$("#msg").text("");

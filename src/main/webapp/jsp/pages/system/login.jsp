@@ -8,16 +8,15 @@
 <title>登录 - SMSE</title>
 </head>
 <body>
-	<div class="easyui-panel" style="width: 300px; position:absolute; right:198px; top:140px">
+	<img src="${cp}/images/login.png" style="position:absolute;">
+	<div style="width:300px;height:50px;position:absolute;left:580px;top:300px">
+		<s:actionerror  cssStyle="color: red"/>
+		<s:actionmessage cssStyle="color: green"/>
+	</div>
+	<div class="easyui-panel" style=" position:absolute;background-color:lightyellow;width:327px;height:68px;left:507px;top:135px;">
 		<form id="ff" action="login!login.html" method="post"
 			enctype="multipart/form-data">
 			<table>
-				<tr>
-					<td colspan="2">
-						<s:actionerror  cssStyle="color: red"/>
-						<s:actionmessage cssStyle="color: green"/>
-					</td>
-				</tr>
 				<tr>
 					<td align="left">账号:</td>
 					<td><input class="easyui-textbox" name="user.username" style="width:155px" data-options="iconCls:'icon-man',iconWidth:38,prompt:'请输入'"></td>

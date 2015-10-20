@@ -16,6 +16,7 @@
 	<!-- cacheManager工厂类，指定ehcache.xml的位置 -->
 	<bean id="cacheManagerFactory"
 		class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"
-		p:configLocation="classpath:ehcache/ehcache.xml"
-		p:shared="true" scope="singleton" />
+		p:configLocation="classpath:ehcache/ehcache.xml" p:shared="true"
+		scope="singleton" />
+
 </beans>

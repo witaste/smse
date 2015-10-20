@@ -30,7 +30,7 @@ public class SystemAction extends AbstractBaseAction {
 	//*---------------------------------------
 
 	// 跳转到 main.jsp
-	public String initMain() {
+	public String main() {
 		user = (SystemUser)SecurityUtils.getSubject().getPrincipal();
 		return "main";
 	}
