@@ -3,7 +3,7 @@
         "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"   
         "struts-2.3.dtd">
 <struts>
-    <package name="smse-default" namespace="/" extends="struts-default,json-default">
+    <package name="smse-view" namespace="/" extends="smse-default,json-default">
 		<global-results>
 			<result name="json" type="json" >  
                 <param name="root">jsonObject</param>  
@@ -11,6 +11,7 @@
 		</global-results>
 		<!-- 系统管理 -->
 		<action name="system!*" method="{1}" class="cn.zno.smse.action.SystemAction">
+			<interceptor-ref name="smseDefaultStack" />
             
             <result name="main" type="dispatcher">/jsp/pages/system/main.jsp</result>
             
@@ -29,16 +30,10 @@
         </action>
 		<!-- 登录 -->
 		<action name="login!*" method="{1}" class="cn.zno.smse.action.LoginAction">
+			<interceptor-ref name="smseDefaultStack" />
 			<result name="success" type="redirect">system!initMain.html</result>
 			<result name="login" type="dispatcher">/jsp/pages/system/login.jsp</result>
 		</action>
         
-		<!-- 测试 -->
-        <action name="person!*" method="{1}" class="cn.zno.smse.action.PersonAction">
-            <result name="add" type="dispatcher">/jsp/pages/person/personAdd.jsp</result>
-            <result name="detail" type="dispatcher">/jsp/pages/person/personDetail.jsp</result>
-            <result name="edit" type="dispatcher">/jsp/pages/person/personEdit.jsp</result>
-            <result name="list" type="dispatcher">/jsp/pages/person/personList.jsp</result>
-        </action>
 	</package>
 </struts>

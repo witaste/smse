@@ -9,7 +9,8 @@
     <!-- 使用spring工厂 -->
     <constant name="struts.objectFactory" value="spring" />
 	<constant name="struts.action.extension" value="html" />
-	
+
 	<include file="struts-default.xml" />
+	<include file="struts/struts-default.xml" />
     <include file="struts/struts-view.xml"/>
 </struts>
