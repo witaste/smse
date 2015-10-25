@@ -7,6 +7,47 @@
 	<version>1.0</version>
 	<name>smse Maven Webapp</name>
 	<url>http://maven.apache.org</url>
+	
+	<repositories>
+        <repository>
+            <id>central</id>
+            <name>Maven Repository Switchboard</name>
+            <layout>default</layout>
+            <url>http://repo.maven.apache.org/maven2</url>
+        </repository>
+        <repository>
+            <id>maven-repo1</id>
+            <url>http://repo1.maven.org/maven2/</url>
+        </repository>
+        <repository>
+            <id>apache-repo</id>
+            <url>https://repository.apache.org/content/groups/public/</url>
+        </repository>
+        <repository>
+            <id>sourceforge-releases</id>
+            <url>https://oss.sonatype.org/content/repositories/releases/</url>
+        </repository>
+        <repository>
+            <id>io.spring.repo.maven.release</id>
+            <url>http://repo.spring.io/release/</url>
+        </repository>
+        <repository>
+            <id>oschina</id>
+            <url>http://maven.oschina.net/content/groups/public/</url>
+        </repository>
+        <repository>
+            <id>ow2-snapshot</id>
+            <url>http://repository.ow2.org/nexus/content/repositories/snapshots</url>
+        </repository>
+        <repository>
+            <id>apache.snapshots</id>
+            <url>http://repository.apache.org/snapshots</url>
+        </repository>
+        <repository>
+            <id>sonatype-nexus-snapshots</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </repository>
+    </repositories>
 	<dependencies>
 
 		<!-- Spring -->
@@ -58,7 +99,7 @@
 		<dependency>
 			<groupId>com.oracle</groupId>
 			<artifactId>ojdbc6</artifactId>
-			<version>11.2.0.3.0</version>
+			<version>11.2.0.2.0</version>
 		</dependency>
 
 		<!-- dbcp2 -->
