@@ -13,7 +13,7 @@
 	
 	<plugins>
 		<plugin interceptor="cn.zno.smse.mybatis.PaginationInterceptor">
-			<property name="dialect" value="oracle" />
+			<property name="dialect" value="mysql" />
 		</plugin>
 	</plugins>
 	

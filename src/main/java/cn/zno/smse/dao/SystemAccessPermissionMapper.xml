@@ -132,7 +132,7 @@
   </delete>
   <insert id="insert" parameterType="cn.zno.smse.pojo.SystemAccessPermission" >
 	<selectKey order="BEFORE" resultType="java.lang.String" keyProperty="id">
-  		select sys_guid() from dual
+  		select UUID() from dual
   	</selectKey>
     <!--
       WARNING - @mbggenerated
@@ -145,7 +145,7 @@
   </insert>
   <insert id="insertSelective" parameterType="cn.zno.smse.pojo.SystemAccessPermission" >
   	<selectKey order="BEFORE" resultType="java.lang.String" keyProperty="id">
-  		select sys_guid() from dual
+  		select UUID() from dual
   	</selectKey>
     <!--
       WARNING - @mbggenerated

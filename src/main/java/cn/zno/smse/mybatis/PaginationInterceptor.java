@@ -85,6 +85,7 @@ public class PaginationInterceptor implements Interceptor {
 				dialect = new OracleDialect();
 				break;
 			case MYSQL:// 需要实现Mysql 物理分页逻辑 
+				dialect = new MysqlDialect();
 				break;
 
 			}

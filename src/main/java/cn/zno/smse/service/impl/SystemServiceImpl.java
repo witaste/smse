@@ -106,7 +106,7 @@ public class SystemServiceImpl implements SystemService {
 				if (icon != null) {
 					attributes.put("icon", icon);
 				}
-				attributes.put("show", menu.getShow());
+				attributes.put("visible", menu.getVisible());
 				if (!pid.equals("null")) { // 如果pid为null字符串会报这个异常： net.sf.json.JSONException: Object is null
 					attributes.put("pid", pid);
 				}

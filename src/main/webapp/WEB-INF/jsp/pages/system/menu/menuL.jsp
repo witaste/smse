@@ -20,7 +20,7 @@ $(document).ready(function() {
 		onContextMenu : function(e, node) {
 			e.preventDefault(); // 阻止默认行为 
 			$('#tree').tree('select', node.target); // 选中
-			$("#menu").menu('show', {
+			$("#menu").menu('visible', {
 				left : e.pageX,
 				top : e.pageY
 			});

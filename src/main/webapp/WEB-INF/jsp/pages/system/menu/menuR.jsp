@@ -79,7 +79,7 @@
 			<table>
 				<s:hidden id="menuId" name="menu.id" />
 				<s:hidden id="menuPId" name="menu.pid" />
-				<s:hidden name="menu.show" value="1" />
+				<s:hidden name="menu.visible" value="1" />
 				<s:hidden id="flag" name="flag" />
 				<s:hidden id="changes" name="changes" />
 				<s:textfield name="menu.name" label="菜单名称" />
