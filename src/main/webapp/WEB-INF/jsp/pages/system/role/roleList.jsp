@@ -1,7 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@taglib prefix="s" uri="/struts-tags"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
 <html>
 <head>
 <title>List</title>
@@ -15,7 +13,7 @@
 		<table align="center">
 			<tr>
 				<td>角色名称：</td>
-				<td><input class="easyui-textbox" name="systemRole.name" maxlength="100"></td>
+				<td><input class="easyui-textbox" name="name" maxlength="100"></td>
 			</tr>
 			<tr>
 				<td colspan =2  align="right">
@@ -28,14 +26,12 @@
 
 	<br />
 	<span id="msg"></span>
-	<s:actionmessage cssStyle="color: green;" />
-	<s:actionerror cssStyle="color: red;" />
 	<table id="dg" class="easyui-datagrid" style="width: 100%;"
 		data-options="multiSort:true,
 				rownumbers:true,
 				remoteSort:false,
 				pagination:true,
-				url:'system!getRoleList.html',
+				url:'${baseUrl}system/getRoleList.json',
 				method:'post',
 				loadMsg:'数据加载中..&nbsp;&nbsp;&nbsp;&nbsp;'">
 		<thead>
@@ -72,7 +68,7 @@
 					}
 					$.ajax({
 					   type: "POST",
-					   url: "system!deleteRole.html",
+					   url: "${baseUrl}system/deleteRole.json",
 					   data: param,
 					   success: function(msg){
 						   // alert(JSON.stringify(msg));
@@ -87,10 +83,10 @@
 			});
 		}
 		function retrieveData(id){
-			window.parent.toTab('角色明细','system!initRoleDetail.html?systemRole.id=' + id);
+			window.parent.toTab('角色明细','${baseUrl}system/initRoleDetail.htm?id=' + id);
 		}
 		function editData(id){
-			window.parent.toTab('角色编辑','system!initRoleEdit.html?systemRole.id=' + id);
+			window.parent.toTab('角色编辑','${baseUrl}system/initRoleEdit.htm?id=' + id);
 		}
 		function showMsg(msg){
 			if(msg.success != undefined){

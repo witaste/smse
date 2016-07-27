@@ -7,12 +7,12 @@
 	<settings>
 		<setting name="lazyLoadingEnabled" value="true" />
 		<setting name="aggressiveLazyLoading" value="false" />
-		<setting name="cacheEnabled" value="true" />
+		<setting name="cacheEnabled" value="false" />
         <setting name="defaultExecutorType" value="REUSE" />
 	</settings>
 	
 	<plugins>
-		<plugin interceptor="cn.zno.smse.mybatis.PaginationInterceptor">
+		<plugin interceptor="cn.zno.smse.common.mybatis.PaginationInterceptor">
 			<property name="dialect" value="mysql" />
 		</plugin>
 	</plugins>

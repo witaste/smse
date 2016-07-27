@@ -6,9 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
@@ -18,13 +15,11 @@ import org.springframework.stereotype.Service;
 
 import cn.zno.smse.common.constants.Constants;
 import cn.zno.smse.common.constants.EasyUIConstants;
-import cn.zno.smse.common.util.StringUtil;
+import cn.zno.smse.common.util.StringUtils;
 import cn.zno.smse.dao.SystemAccessPermissionMapper;
 import cn.zno.smse.dao.SystemMenuMapper;
 import cn.zno.smse.dao.SystemRoleMapper;
-import cn.zno.smse.dao.SystemRoleMenuLinkMapper;
 import cn.zno.smse.dao.SystemUserMapper;
-import cn.zno.smse.dao.SystemUserRoleLinkMapper;
 import cn.zno.smse.pojo.SystemAccessPermission;
 import cn.zno.smse.pojo.SystemAccessPermissionExample;
 import cn.zno.smse.pojo.SystemMenu;
@@ -35,6 +30,8 @@ import cn.zno.smse.pojo.SystemUser;
 import cn.zno.smse.pojo.SystemUserExample;
 import cn.zno.smse.service.SystemService;
 import cn.zno.smse.service.SystemTx;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 @Service
 public class SystemServiceImpl implements SystemService {
@@ -49,10 +46,6 @@ public class SystemServiceImpl implements SystemService {
 	private SystemAccessPermissionMapper systemAccessPermissionMapper;
 	@Autowired
 	private SystemRoleMapper systemRoleMapper;
-	@Autowired
-	private SystemRoleMenuLinkMapper systemRoleMenuLinkMapper;
-	@Autowired
-	private SystemUserRoleLinkMapper systemUserRoleLinkMapper;
 	@Autowired
 	private SystemTx systemTx;
 
@@ -84,8 +77,8 @@ public class SystemServiceImpl implements SystemService {
 		for (SystemMenu menu : menus) {
 			String id = menu.getId();
 			String pid = menu.getPid();
-			my = my == null ? "null" : my;
-			pid = pid == null ? "null" : pid;
+			my = StringUtils.isBlank(my) ? "null" : my;
+			pid = StringUtils.isBlank(pid) ? "null" : pid;
 			if (my.equals(pid)) {
 				JSONObject myChild = new JSONObject();
 				myChild.put(EasyUIConstants.ID, id);
@@ -100,7 +93,7 @@ public class SystemServiceImpl implements SystemService {
 				}
 				JSONObject attributes = new JSONObject();
 				String url = menu.getUrl();
-				url = (url == null || url == "#") ? "javascript:void(0)" : url;
+				url = (StringUtils.isBlank(url) || url == "#") ? "" : url;
 				attributes.put("url", url);
 				String icon = menu.getIcon();
 				if (icon != null) {
@@ -123,6 +116,13 @@ public class SystemServiceImpl implements SystemService {
 		if (menu == null || menu.getId() == null)
 			return null;
 		return systemMenuMapper.selectByPrimaryKey(menu.getId());
+	}
+	
+	@Override
+	public SystemMenu getMenuById(String menuId) {
+		if (menuId == null)
+			return null;
+		return systemMenuMapper.selectByPrimaryKey(menuId);
 	}
 
 	@Override
@@ -223,17 +223,17 @@ public class SystemServiceImpl implements SystemService {
 		// 校验start
 		if(user==null){
 			errorMsg = "数据不存在！";
-		}else if(StringUtil.isBlank(user.getName())){
+		}else if(StringUtils.isBlank(user.getName())){
 			errorMsg = "请填写用户名！";
-		}else if(StringUtil.isBlank(user.getUsername())){
+		}else if(StringUtils.isBlank(user.getUsername())){
 			errorMsg = "请填写登录用户名！";
-		}else if(StringUtil.isBlank(user.getPassword())){
+		}else if(StringUtils.isBlank(user.getPassword())){
 			errorMsg = "请填写登录密码！";
-		}else if(StringUtil.isBlank(user.getMobile())){
+		}else if(StringUtils.isBlank(user.getMobile())){
 			errorMsg = "请填写手机号！";
-		}else if(StringUtil.isBlank(user.getEmail())){
+		}else if(StringUtils.isBlank(user.getEmail())){
 			errorMsg = "请填写邮箱！";
-		}else if(StringUtil.isBlank(user.getId())){
+		}else if(StringUtils.isBlank(user.getId())){
 			SystemUserExample userExample = new SystemUserExample();
 			cn.zno.smse.pojo.SystemUserExample.Criteria criteria = userExample.createCriteria();
 			criteria.andNameEqualTo(user.getName());
@@ -308,7 +308,7 @@ public class SystemServiceImpl implements SystemService {
 		SystemUserExample userExample = new SystemUserExample();
 		if(user != null){
 			cn.zno.smse.pojo.SystemUserExample.Criteria criteria = userExample.createCriteria();
-			if(StringUtil.isNotBlank(user.getName())){
+			if(StringUtils.isNotBlank(user.getName())){
 				criteria.andNameLike("%"+user.getName()+"%");
 			}
 		}
@@ -341,11 +341,11 @@ public class SystemServiceImpl implements SystemService {
 		// 校验start
 		if(role==null){
 			errorMsg = "数据不存在！";
-		}else if(StringUtil.isBlank(role.getName())){
+		}else if(StringUtils.isBlank(role.getName())){
 			errorMsg = "请填写角色名称！";
-		}else if(StringUtil.isBlank(role.getRole())){
+		}else if(StringUtils.isBlank(role.getRole())){
 			errorMsg = "请填写角色！";
-		}else if(StringUtil.isBlank(role.getId())){
+		}else if(StringUtils.isBlank(role.getId())){
 			SystemRoleExample roleExample = new SystemRoleExample();
 			cn.zno.smse.pojo.SystemRoleExample.Criteria criteria = roleExample.createCriteria();
 			criteria.andNameEqualTo(role.getName());
@@ -404,7 +404,7 @@ public class SystemServiceImpl implements SystemService {
 		SystemRoleExample roleExample = new SystemRoleExample();
 		if(role != null){
 			cn.zno.smse.pojo.SystemRoleExample.Criteria criteria = roleExample.createCriteria();
-			if(StringUtil.isNotBlank(role.getName())){
+			if(StringUtils.isNotBlank(role.getName())){
 				criteria.andNameLike("%"+role.getName()+"%");
 			}
 		}
@@ -443,7 +443,6 @@ public class SystemServiceImpl implements SystemService {
 				continue;
 			roles.add(role.getRole());
 		}
-		roles.add("admin");
 		return roles;
 	}
 

@@ -1,16 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@taglib prefix="s" uri="/struts-tags"%>
-<html>
-<head>
-<c:set var="cp" 
-	value="${pageContext.request.scheme}://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}" />
-<link rel="stylesheet" type="text/css" href="${cp}/easyui/themes/default/easyui.css">
-<link rel="stylesheet" type="text/css" href="${cp}/easyui/themes/icon.css">
-<link rel="stylesheet" type="text/css" href="${cp}/css/style.css">
-<script type="text/javascript" src="${cp}/easyui/jquery.min.js"></script>
-<script type="text/javascript" src="${cp}/easyui/jquery.easyui.min.js"></script>
-<script type="text/javascript" src="${cp}/easyui/easyui-lang-zh_CN.js"></script>
+
+<c:set var="baseUrl" value="${pageContext.request.scheme}://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/" />
+<c:set var="cp" value="/${pageContext.request.contextPath}/" />
+
+<link rel="stylesheet" type="text/css" href="${baseUrl}easyui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="${baseUrl}easyui/themes/icon.css">
+<link rel="stylesheet" type="text/css" href="${baseUrl}css/style.css">
+<script type="text/javascript" src="${baseUrl}easyui/jquery.min.js"></script>
+<script type="text/javascript" src="${baseUrl}easyui/jquery.form.js"></script>
+<script type="text/javascript" src="${baseUrl}easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="${baseUrl}easyui/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
 		
@@ -66,7 +66,21 @@
 		$('.easyui-datagrid').datagrid('reload');
 	}
 	
+    // 新增验证方法 
+    $.extend($.fn.validatebox.defaults.rules, {
+        notBlank: {
+            validator: function(value){
+                return $.trim(value) != '';
+            },
+            message: 'Can not be blank.'
+        },
+        mobile:{
+        	validator: function(value){
+                return /^1[0-9]{10}$/.test(value);
+            },
+            message: 'Invalid phone number.'
+        }
+    	
+    });
 
 </script>
-</head>
-</html>

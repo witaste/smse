@@ -148,7 +148,7 @@
   </insert>
   <insert id="insertSelective" parameterType="cn.zno.smse.pojo.SystemMenu" >
   	<selectKey order="BEFORE" keyProperty="id" resultType="java.lang.String">
-  		select sys_guid() from dual
+  		select UUID() from dual
   	</selectKey>
     <!--
       WARNING - @mbggenerated
@@ -156,48 +156,48 @@
     -->
     insert into SMSE_MENU
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+      <if test="id != null and id != ''" >
         ID,
       </if>
-      <if test="name != null" >
+      <if test="name != null and name != ''" >
         NAME,
       </if>
-      <if test="url != null" >
+      <if test="url != null and url != ''" >
         URL,
       </if>
-      <if test="icon != null" >
+      <if test="icon != null and icon != ''" >
         ICON,
       </if>
-      <if test="visible != null" >
+      <if test="visible != null and visible != ''" >
         VISIBLE,
       </if>
-      <if test="pid != null" >
+      <if test="pid != null and pid != ''" >
         PID,
       </if>
-      <if test="sort != null" >
+      <if test="sort != null and sort != ''" >
         SORT,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+      <if test="id != null and id != ''" >
         #{id,jdbcType=CHAR},
       </if>
-      <if test="name != null" >
+      <if test="name != null and name != ''" >
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="url != null" >
+      <if test="url != null and url != ''" >
         #{url,jdbcType=VARCHAR},
       </if>
-      <if test="icon != null" >
+      <if test="icon != null and icon != ''" >
         #{icon,jdbcType=VARCHAR},
       </if>
-      <if test="visible != null" >
+      <if test="visible != null and visible != ''" >
         #{visible,jdbcType=VARCHAR},
       </if>
-      <if test="pid != null" >
+      <if test="pid != null and pid != ''" >
         #{pid,jdbcType=CHAR},
       </if>
-      <if test="sort != null" >
+      <if test="sort != null and sort != ''" >
         #{sort,jdbcType=DECIMAL},
       </if>
     </trim>
@@ -219,25 +219,25 @@
     -->
     update SMSE_MENU
     <set >
-      <if test="record.id != null" >
+      <if test="record.id != null and record.id != ''" >
         ID = #{record.id,jdbcType=CHAR},
       </if>
-      <if test="record.name != null" >
+      <if test="record.name != null and record.name != ''" >
         NAME = #{record.name,jdbcType=VARCHAR},
       </if>
-      <if test="record.url != null" >
+      <if test="record.url != null and record.url != ''" >
         URL = #{record.url,jdbcType=VARCHAR},
       </if>
-      <if test="record.icon != null" >
+      <if test="record.icon != null and record.icon != ''" >
         ICON = #{record.icon,jdbcType=VARCHAR},
       </if>
-      <if test="record.visible != null" >
+      <if test="record.visible != null and record.visible != ''" >
         VISIBLE = #{record.visible,jdbcType=VARCHAR},
       </if>
-      <if test="record.pid != null" >
+      <if test="record.pid != null and record.pid != ''" >
         PID = #{record.pid,jdbcType=CHAR},
       </if>
-      <if test="record.sort != null" >
+      <if test="record.sort != null and record.sort != ''" >
         SORT = #{record.sort,jdbcType=DECIMAL},
       </if>
     </set>
@@ -269,22 +269,22 @@
     -->
     update SMSE_MENU
     <set >
-      <if test="name != null" >
+      <if test="name != null and name != ''" >
         NAME = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="url != null" >
+      <if test="url != null and url != ''" >
         URL = #{url,jdbcType=VARCHAR},
       </if>
-      <if test="icon != null" >
+      <if test="icon != null and icon != ''" >
         ICON = #{icon,jdbcType=VARCHAR},
       </if>
-      <if test="visible != null" >
+      <if test="visible != null and visible != ''" >
         VISIBLE = #{visible,jdbcType=VARCHAR},
       </if>
-      <if test="pid != null" >
+      <if test="pid != null and pid != ''" >
         PID = #{pid,jdbcType=CHAR},
       </if>
-      <if test="sort != null" >
+      <if test="sort != null and sort != ''" >
         SORT = #{sort,jdbcType=DECIMAL},
       </if>
     </set>

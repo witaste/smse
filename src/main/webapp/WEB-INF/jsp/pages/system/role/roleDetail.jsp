@@ -1,6 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
 <html>
 <head>
 <%@ include file="/WEB-INF/jsp/common/include/easyui_nopager.jsp"%>
@@ -19,11 +18,11 @@
 			</tr>
 			<tr>
 				<td align="right">角色名称：</td>
-				<td align="left"><s:property value="systemRole.name" /></td>
+				<td align="left">${systemRole.name }</td>
 			</tr>
 			<tr>
 				<td align="right">角色：</td>
-				<td align="left"><s:property value="systemRole.role" /></td>
+				<td align="left">${systemRole.role }</td>
 			</tr>
 			<tr>
 				<td></td>
@@ -35,7 +34,7 @@
 </body>
 <script type="text/javascript">
 	function back() {
-		window.parent.toTab('角色列表', 'system!initRoleList.html');
+		window.parent.toTab('角色列表', '${baseUrl}system/initRoleList.htm');
 	}
 </script>
 </html>

@@ -1,6 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
 <html>
 <head>
 <%@ include file="/WEB-INF/jsp/common/include/easyui_nopager.jsp"%>
@@ -23,7 +22,7 @@
 		
 		// 菜单 
 		$('#tree').tree({
-			url:'system!getTreeNode.html',
+			url:'${baseUrl}system/getTreeNode.json',
 			method:'get',
 			animate:false,
 			lines:true,
@@ -33,11 +32,15 @@
 				var url = node.attributes.url;
 				var s = '';
 				if(node.attributes.isLeaf){
-					s = '<a href=\"'+url+'\" onclick=\"return toTab(\''+text+'\',\''+url+'\')\">'+text+'</a>';
+					if(url){
+						s = '<span style="cursor:pointer" onclick=\"return toTab(\''+text+'\',\'${baseUrl}'+url+'\')\">'+text+'</span>';
+					}else{
+						s = '<span style="cursor:pointer">'+text+'</span>';
+					}
 				}else if(node.attributes.pid == undefined){
-					s = '<b><a href='+url+'><span style="font:italic bold 50px">'+text+'</span></a></b>';
+					s = '<b><span style="font:italic bold 50px;cursor:pointer;">'+text+'</span></b>';
 				}else{
-					s = '<a href='+url+'>'+text+'</a>';
+					s = '<span>'+text+'</span>';
 				}
 				return s;
 			},
@@ -87,7 +90,7 @@
 	function logout() {
 		$.messager.confirm('确认','确定要退出系统吗',function(r){
 		    if (r){
-		    	window.parent.location.href = 'login!logout.html';
+		    	window.parent.location.href = '${baseUrl}logout';
 		    }
 		});
 	}
@@ -98,14 +101,14 @@
 <body class="easyui-layout">
 	<!-- 北域 -->
 	<div data-options="region:'north',split:false,border:false" style="height: 94px; overflow-y: hidden;">
-		<div style="background-image:url('${cp}/images/main_north_bg.png');background-repeat:repeat-x;height:94px">
+		<div style="background-image:url('${baseUrl}/images/main_north_bg.png');background-repeat:repeat-x;height:94px">
 			<div style="position: absolute; top: 10px; left: 30px; z-index: 2;">
-				<img src="${cp}/images/main_north_logo.png"></img>
+				<img src="${baseUrl}/images/main_north_logo.png"></img>
 			</div>
 			<div style='position: absolute; top: 0; right: 0px; z-index: 2;'>
 				<div style="display: inline-block; width: auto; height: 30px; color: #FFF; margin-top: 0px;">
 					<span style="padding-left: 5px; line-height: 30px; color: #ffffff; margin-top: 3px; display: inline-block">
-						<s:property value="user.name" /> 
+						${user.name }
 					</span>
 					<span onclick="javascript:void(0)" style="cursor: hand; color: #ffffff; cursor: pointer;">
 						修改密码 
@@ -130,7 +133,7 @@
 	<div data-options="region:'center',iconCls:'icon-home',split:false,border:false">
 		<div id="tabs" class="easyui-tabs" data-options="fit:true,border:false">
 			<div title="首页" data-options="iconCls:'icon-home'">
-				<div style="background: url(${cp}/images/main_center_bg.gif) fixed center;width:100%;height:100%"></div>
+				<div style="background: url(${baseUrl}/images/main_center_bg.gif) fixed center;width:100%;height:100%"></div>
 			</div>
 		</div>
 	</div>

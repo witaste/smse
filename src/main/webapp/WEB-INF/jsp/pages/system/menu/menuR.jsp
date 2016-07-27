@@ -1,6 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
 <html>
 <head>
 <%@ include file="/WEB-INF/jsp/common/include/easyui.jsp"%>
@@ -15,11 +14,11 @@
 			remoteSort:false,
 			pagination:false,
 			toolbar: '#ziyuan_toolbar',
-			url:'system!getAccessPermission.html',
+			url:'${baseUrl}system/getAccessPermission.json',
 			method:'post',
 			loadMsg:'数据加载中..&nbsp;&nbsp;&nbsp;&nbsp;',
 			queryParams: {
-				"menu.id": $("#menuId").val()
+				"id": $("#menuId").val()
 			},
 			onClickCell: editZY
 		});
@@ -30,11 +29,11 @@
 			remoteSort:false,
 			pagination:false,
 			toolbar: '#juese_toolbar',
-			url:'system!getRole.html',
+			url:'${baseUrl}system/getRole.json',
 			method:'post',
 			loadMsg:'数据加载中..&nbsp;&nbsp;&nbsp;&nbsp;',
 			queryParams: {
-				"menu.id": $("#menuId").val()
+				"id": $("#menuId").val()
 			}
 		});
 		// 角色_弹窗 
@@ -51,7 +50,7 @@
 			remoteSort:false,
 			pagination:true,
 			singleSelect:false,
-			url:'system!getRoleAll.html',
+			url:'${baseUrl}system/getRoleAll.json',
 			method:'post',
 			loadMsg:'数据加载中..&nbsp;&nbsp;&nbsp;&nbsp;'
 		});
@@ -75,18 +74,31 @@
 </head>
 <body>
 	<div class="easyui-panel" title="菜单" style="width: 400px;">
-		<form id ="menuForm" action="system!saveMenu.html" method="post" enctype="multipart/form-data">
+		<form id ="menuForm">
 			<table>
-				<s:hidden id="menuId" name="menu.id" />
-				<s:hidden id="menuPId" name="menu.pid" />
-				<s:hidden name="menu.visible" value="1" />
-				<s:hidden id="flag" name="flag" />
-				<s:hidden id="changes" name="changes" />
-				<s:textfield name="menu.name" label="菜单名称" />
-				<s:textfield name="menu.url" label="菜单资源" />
-				<s:textfield name="menu.sort" label="排序" class="easyui-numberbox" />
-				<s:textfield name="menu.icon" label="菜单图标" />
+				<tr>
+					<td>菜单名称:</td><td><input type="text" name="name" class="easyui-textbox" value="${menu.name }" data-options="required:true,validType:['length[0,10]','notBlank']"/></td>
+				</tr>
+				<tr>
+					<td>菜单URL:</td><td><input type="text" name="url" class="easyui-textbox" value="${menu.url }" data-options="validType:['length[0,30]','notBlank']"/></td>
+				</tr>
+				<tr>
+					<td>菜单图标:</td><td><input type="text" name="icon" class="easyui-textbox" value="${menu.icon }" data-options="validType:['length[0,10]','notBlank']"/></td>
+				</tr>
+				<tr>
+					<td>排序:</td><td><input type="text" name="sort" class="easyui-numberbox" value="${menu.sort }"  data-options="required:true"/></td>
+				</tr>
 			</table>
+			
+			<input type="hidden" id="menuId" name="id" value="${menuId }"/>
+			<c:if test="${flag == 'U' || flag == 'R'}">
+				<input type="hidden" id="menuPId" name="pid" value="${menu.pid }"/>
+			</c:if>
+			<c:if test="${flag == 'ASL' || flag == 'ANL' }">
+				<input type="hidden" id="menuPId" name="pid" value="${menuPId }"/>
+			</c:if>
+			<input type="hidden" name="visible" value="1" />
+			<input type="hidden" id="changes" name="changes" />
 		</form>
 	</div>
 	<div style="height:2px;width: 400px;"></div>
@@ -113,9 +125,9 @@
 	</table>
 	<div style="margin-top:20px; width: 400px;text-align:center">
 		<a class="easyui-linkbutton" href="#" onclick="back()">返回列表</a>
-		<s:if test="flag != \"R\"">
+		<c:if test="${flag != 'R'}">
 			<a class="easyui-linkbutton"  href="#" onclick="saveData()">保存数据</a>
-		</s:if>
+		</c:if>
 	</div>
 	<div id="ziyuan_toolbar" style="height:auto">
 		<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="appendZY()">添加资源</a>
@@ -132,9 +144,9 @@
 			<table align="center">
 				<tr>
 					<td>角色名称：</td>
-					<td><input class="easyui-textbox" id="juese_wd_roleName" name="systemRole.name" maxlength="200"></td>
+					<td><input class="easyui-textbox" id="juese_wd_roleName" name="name" maxlength="200"></td>
 					<td>角色：</td>
-					<td><input class="easyui-textbox" id="juese_wd_roleRole" name="systemRole.role" maxlength="200"></td>
+					<td><input class="easyui-textbox" id="juese_wd_roleRole" name="role" maxlength="200"></td>
 				</tr>
 				<tr>
 					<td colspan=4 align="right">
@@ -272,15 +284,23 @@
 		changes['insJS'] = insJS;
 		$("#changes").val(JSON.stringify(changes));
 		
-		$('#menuForm').form('submit', {
-		    success:function(data){
-		    	window.parent.location.href = "system!initMenu.html";
-		    }
+		// submit 
+		$('#menuForm').ajaxForm({
+			type:'POST',
+			url:'${baseUrl}system/saveMenu.json',
+			beforeSubmit:function(arr, form, options){
+				return $(form).form('enableValidation').form('validate');
+			},
+			success : function(data) {
+				window.parent.location.href = "${baseUrl}system/initMenu.htm";
+			}
 		});
+
+		$('#menuForm').submit();
 		// 保存数据end ----------->
 	}
 	function back(){
-		window.parent.location.href = "system!initMenu.html";
+		window.parent.location.href = "${baseUrl}system/initMenu.htm";
 	}
 </script>
 </body>

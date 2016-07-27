@@ -14,7 +14,7 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import cn.zno.smse.common.util.StringUtil;
+import cn.zno.smse.common.util.StringUtils;
 import cn.zno.smse.pojo.SystemUser;
 import cn.zno.smse.service.SystemService;
 
@@ -23,9 +23,15 @@ public class DataBaseRealm extends AuthorizingRealm {
 
 	@Autowired
 	private SystemService systemService;
+	
+	private final static String LOGIN_ERROR = "您输入的帐号或密码有误";
 
+    /**
+     * 授权
+     */
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+
 		SystemUser user = (SystemUser) principals.getPrimaryPrincipal();
 
 		SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
@@ -35,21 +41,23 @@ public class DataBaseRealm extends AuthorizingRealm {
 		return authorizationInfo;
 	}
 
+    /**
+     * 登录 
+     */
 	@Override
-	protected AuthenticationInfo doGetAuthenticationInfo(
-			AuthenticationToken token) throws AuthenticationException {
+	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
 		UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken) token;
 		String username = usernamePasswordToken.getUsername();
 		String password = String.valueOf(usernamePasswordToken.getPassword());
-		if (StringUtil.isBlank(username))
-			throw new AccountException("您输入的帐号不存在");
-		SystemUser user = null;
-		if (StringUtil.isNotBlank(password)) {
-			user = systemService.getUserByPassword(username, password);
+		if (username == null || password == null){
+			throw new UnknownAccountException(LOGIN_ERROR);
+		}else{
+			SystemUser user = systemService.getUserByPassword(username, password);
+			if (user == null){
+				throw new UnknownAccountException(LOGIN_ERROR);
+			}else{
+				return new SimpleAuthenticationInfo(user, password, getName());
+			}
 		}
-		if (user == null)
-			throw new UnknownAccountException("您输入的帐号或密码有误");
-		return new SimpleAuthenticationInfo(user, password, getName());
 	}
-
 }

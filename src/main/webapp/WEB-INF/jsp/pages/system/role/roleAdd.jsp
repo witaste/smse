@@ -1,6 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
 <html>
 <head>
 <%@ include file="/WEB-INF/jsp/common/include/easyui_nopager.jsp"%>
@@ -10,8 +9,7 @@
 <body>
 
 	<div class="easyui-panel" style="width: 300px; padding: 10px;">
-		<form id="ff" action="system!saveRoleAdd.html" method="post"
-			enctype="multipart/form-data">
+		<form id="ff">
 			<table>
 				<tr>
 					<td colspan="2">
@@ -21,11 +19,11 @@
 				</tr>
 				<tr>
 					<td align="left">角色名称:</td>
-					<td><input class="easyui-textbox" name="systemRole.name" maxlength="100"></td>
+					<td><input class="easyui-textbox" name="name" data-options="required:true,validType:['length[0,10]','notBlank']" class="easyui-textbox" ></td>
 				</tr>
 				<tr>
 					<td align="left">角色:</td>
-					<td><input class="easyui-textbox" name="systemRole.role" maxlength="100"></td>
+					<td><input class="easyui-textbox" name="role" data-options="required:true,validType:['length[0,10]','notBlank']" class="easyui-textbox" ></td>
 				</tr>
 				<tr>
 					<td><a href="#" class="easyui-linkbutton" iconCls="icon-back"
@@ -37,16 +35,30 @@
 		</form>
 	</div>
 	<script type="text/javascript">
-		$('#ff').form({
-			success : function(data) {
-				$.messager.alert('Info', data, 'info');
-			}
+	
+		$(document).ready(function() { 
+			$('#ff').ajaxForm({
+				type:'POST',
+				url:'${baseUrl}system/saveRoleAdd.json',
+				beforeSubmit:function(arr, form, options){
+					return $(form).form('enableValidation').form('validate');
+				},
+				success : function(data) {
+					if(data.error == undefined){
+						$.messager.alert('Info',data.success , 'info');
+					}else{
+						$.messager.alert('Error',data.error , 'error');
+					}
+				}
+			});
 		});
+		
 		function saveData() {
 			$('#ff').submit();
 		}
+		
 		function back(){
-			window.parent.toTab('角色列表','system!initRoleList.html');
+			window.parent.toTab('角色列表','${baseUrl}system/initRoleList.htm');
 		}
 	</script>
 </body>

@@ -16,6 +16,7 @@ import cn.zno.smse.pojo.SystemUser;
 public interface SystemService {
 	public JSONArray getTreeNode();
 	public SystemMenu getMenu(SystemMenu menu);
+	public SystemMenu getMenuById(String menuId);
 	public Map<String,Object> getAccessPermission(SystemMenu menu);
 	public Map<String,Object> getRoleRecord(SystemMenu menu);
 	public Map<String,Object> getRoleAll(SystemRole role, RowBounds rowBounds);

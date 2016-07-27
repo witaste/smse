@@ -1,6 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
 <html>
 <head>
 <%@ include file="/WEB-INF/jsp/common/include/easyui_nopager.jsp"%>
@@ -10,8 +9,7 @@
 <body>
 
 	<div class="easyui-panel" style="width: 300px; padding: 10px;">
-		<form id="ff" action="system!saveRoleEdit.html" method="post"
-			enctype="multipart/form-data">
+		<form id="ff">
 			<table>
 				<tr>
 					<td colspan="2">
@@ -20,35 +18,41 @@
 					</td>
 				</tr>
 				<tr>
-					<td><s:textfield name="systemRole.name" label="角色名称" maxlength="100" /></td>
+					<td>角色名称:</td><td><input type="text" name="name" value="${systemRole.name }" data-options="required:true,validType:['length[0,10]','notBlank']" class="easyui-textbox" /></td>
 				</tr>
 				<tr>
-					<td><s:textfield name="systemRole.role" label="角色"/></td>
+					<td>角色:</td><td><input type="text" name="role" value="${systemRole.role }" data-options="required:true,validType:['length[0,10]','notBlank']" class="easyui-textbox" /></td>
 				</tr>
 				<tr>
 					<td colspan = 2 align="right">
-					<a class="easyui-linkbutton" iconCls="icon-back" href="#" onclick = "back()">返回列表</a>
+					<a class="easyui-linkbutton" iconCls="icon-back" href="#" onclick="back()">返回列表</a>
 					<a class="easyui-linkbutton" iconCls="icon-save" href="#" onclick="saveData()">保存数据</a></td>
 				</tr>
 			</table>
-			<s:hidden name="systemRole.id" />
+			<input type="hidden" name="id" value="${systemRole.id}"/>
 		</form>
 	</div>
 	<script type="text/javascript">
-		$(document).ready(function() {
-			// 设置表单 
-			$('#ff').form({
+	
+		$(document).ready(function() { 
+			$('#ff').ajaxForm({
+				type:'POST',
+				url:'${baseUrl}system/saveRoleEdit.json',
 				success : function(data) {
-					$.messager.alert('Info', data, 'info');
+					if(data.error == undefined){
+						$.messager.alert('Info',data.success , 'info');
+					}else{
+						$.messager.alert('Error',data.error , 'error');
+					}
 				}
 			});
 		});
-
+		
 		function saveData() {
 			$('#ff').submit();
 		}
 		function back(){
-			window.parent.toTab('角色列表','system!initRoleList.html');
+			window.parent.toTab('角色列表','${baseUrl}system/initRoleList.htm');
 		}
 	</script>
 </body>

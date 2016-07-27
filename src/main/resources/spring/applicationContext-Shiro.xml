@@ -5,30 +5,26 @@
 
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
 		<property name="securityManager" ref="webSecurityManager" />
-		<property name="loginUrl" value="/login!login.html" />
-		<property name="successUrl" value="/system!main.html" />
-		<property name="unauthorizedUrl" value="/login!login.html" />
-		<property name="filterChainDefinitionMap" ref="chainDefinitionSectionMetaSource" />
+		<property name="loginUrl" value="login" />
+		<property name="successUrl" value="system/main.htm" />
+		<property name="unauthorizedUrl" value="login" />
+		<property name="filterChainDefinitionMap" ref="section" />
 	</bean>
 
-	<bean id="chainDefinitionSectionMetaSource"
-		class="cn.zno.smse.common.security.ChainDefinitionSectionMetaSource">
-		<property name="filterChainDefinitions">
+	<bean id="section" class="cn.zno.smse.common.security.SectionFactory">
+		<property name="iniConfig">
 			<value>
 				# 图片等
 				/css/** = anon
 				/easyui/** = anon
 				/images/** = anon
 				# 登录
-				/login!login.html = anon
-				# web service
-				/rest/** = anon
+				/login = anon
 			</value>
 		</property>
 	</bean>
 
-	<bean id="webSecurityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager"
-		p:realm-ref="dbRealm" />
+	<bean id="webSecurityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager" p:realm-ref="dbRealm" />
 	<bean id="dbRealm" class="cn.zno.smse.common.security.DataBaseRealm">
 		<property name="cachingEnabled" value="false"></property>
 		<property name="authenticationCachingEnabled" value="false"></property>

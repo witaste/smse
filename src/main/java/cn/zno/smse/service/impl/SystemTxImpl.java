@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import cn.zno.smse.common.util.StringUtils;
 import cn.zno.smse.dao.SystemAccessPermissionMapper;
 import cn.zno.smse.dao.SystemMenuMapper;
 import cn.zno.smse.dao.SystemRoleMapper;
@@ -66,7 +67,7 @@ public class SystemTxImpl implements SystemTx {
 		if (user.getRoleList() == null)
 			return;
 		for (SystemRole role : user.getRoleList()) {
-			if (role == null)
+			if (role == null || role.getId() == null)
 				continue;
 			SystemUserRoleLink userRoleLink = new SystemUserRoleLink();
 			userRoleLink.setUserId(user.getId());
@@ -89,7 +90,7 @@ public class SystemTxImpl implements SystemTx {
 		if (user.getRoleList() == null)
 			return;
 		for (SystemRole role : user.getRoleList()) {
-			if (role == null)
+			if (role == null || role.getId() == null)
 				continue;
 			SystemUserRoleLink userRoleLink = new SystemUserRoleLink();
 			userRoleLink.setUserId(user.getId());
@@ -130,8 +131,8 @@ public class SystemTxImpl implements SystemTx {
 		for (SystemMenu menu : menus) {
 			String id = menu.getId();
 			String pid = menu.getPid();
-			my = my == null ? "null" : my;
-			pid = pid == null ? "null" : pid;
+			my = StringUtils.isBlank(my) ? "null" : my;
+			pid = StringUtils.isBlank(pid) ? "null" : pid;
 			if (my.equals(pid)) {
 				ids.add(id);
 				childrenId(id, menus, ids);
@@ -185,7 +186,7 @@ public class SystemTxImpl implements SystemTx {
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void saveMenuTranscational(SystemMenu menu, String changes) {
 		// 菜单
-		if (menu.getId() == null || menu.getId().trim().equals("")) {
+		if (menu.getId() == null || StringUtils.isBlank(menu.getId())) {
 			systemMenuMapper.insertSelective(menu);
 		} else {
 			systemMenuMapper.updateByPrimaryKeySelective(menu);

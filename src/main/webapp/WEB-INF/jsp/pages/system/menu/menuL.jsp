@@ -1,6 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
 <html>
 <head>
 <%@ include file="/WEB-INF/jsp/common/include/easyui_nopager.jsp"%>
@@ -10,7 +9,7 @@
 $(document).ready(function() {
 	// 菜单 
 	$('#tree').tree({
-		url:'system!getTreeNode.html',
+		url:'${baseUrl}system/getTreeNode.json',
 		method:'get',
 		animate:false,
 		lines:true,
@@ -20,7 +19,7 @@ $(document).ready(function() {
 		onContextMenu : function(e, node) {
 			e.preventDefault(); // 阻止默认行为 
 			$('#tree').tree('select', node.target); // 选中
-			$("#menu").menu('visible', {
+			$("#menu").menu('show', {
 				left : e.pageX,
 				top : e.pageY
 			});
@@ -31,27 +30,14 @@ $(document).ready(function() {
 function detail(){
 	var node = $('#tree').tree('getSelected');
 	if(node){
-		$("#treeDetail").attr("src","system!initMenu.html?flag=R&menu.id="+node.id);
+		$("#treeDetail").attr("src","${baseUrl}system/menuOption.htm?flag=R&menuId="+node.id);
 	}
 }
 
 function edit(){
 	var node = $('#tree').tree('getSelected');
 	if (node) {
-		$("#treeDetail").attr("src","system!initMenu.html?flag=U&menu.id="+node.id);
-	}
-}
-
-function del(){
-	var node = $('#tree').tree('getSelected');
-	if (node) {
-		$.messager.confirm('确认','确定要删除选中的节点及其子节点吗',function(r){
-		    if (r){
-		    	$.get("system!initMenu.html?flag=D&menu.id="+node.id, function(data){
-		    		  window.parent.location.href = "system!main.html";
-		    	});
-		    }
-		});
+		$("#treeDetail").attr("src","${baseUrl}system/menuOption.htm?flag=U&menuId="+node.id);
 	}
 }
 
@@ -60,18 +46,32 @@ function addSameLevel(){
 	if(node){
 		var param = "?flag=ASL";
 		if(node.attributes.pid != undefined){
-			param += "&menu.pid="+node.attributes.pid;
+			param += "&menuPId="+node.attributes.pid;
 		}
-		$("#treeDetail").attr("src","system!initMenu.html" + param);
+		$("#treeDetail").attr("src","${baseUrl}system/menuOption.htm" + param);
 	}
 }
 
 function addNextLevel(){
 	var node = $('#tree').tree('getSelected');
 	if(node){
-		$("#treeDetail").attr("src","system!initMenu.html?flag=ANL&menu.pid="+node.id);
+		$("#treeDetail").attr("src","${baseUrl}system/menuOption.htm?flag=ANL&menuPId="+node.id);
 	}
 }
+
+function del(){
+	var node = $('#tree').tree('getSelected');
+	if (node) {
+		$.messager.confirm('确认','确定要删除选中的节点及其子节点吗',function(r){
+		    if (r){
+		    	$.get("${baseUrl}system/menuDelete.json?flag=D&id="+node.id, function(data){
+		    		  window.parent.location.href = "${baseUrl}system/main.htm";
+		    	});
+		    }
+		});
+	}
+}
+
 </script>
 </head>
 <body>
