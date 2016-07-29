@@ -14,6 +14,7 @@ import cn.zno.smse.pojo.SystemRole;
 import cn.zno.smse.pojo.SystemUser;
 
 public interface SystemService {
+	public Map<String,Object> savePassword(String oldPassword ,String newPassword, String confirmPassword);
 	public JSONArray getTreeNode();
 	public SystemMenu getMenu(SystemMenu menu);
 	public SystemMenu getMenuById(String menuId);

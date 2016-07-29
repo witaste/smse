@@ -34,7 +34,14 @@ public class SystemController {
 		model.addAttribute("user", user);
 		return "system/main";
 	}
-
+	
+	// 修改密码
+	@RequestMapping(value="savePassword.json")
+	@ResponseBody
+	public Object savePassword(String oldPassword ,String newPassword, String confirmPassword){
+		return systemService.savePassword(oldPassword, newPassword, confirmPassword);
+	}
+	
 	// 异步加载tree
 	@RequestMapping(value="getTreeNode.json")
 	@ResponseBody
@@ -47,6 +54,7 @@ public class SystemController {
 	public String initMenu() {
 		return "system/menu/menuL";
 	}
+	
 	@RequestMapping(value="menuOption.htm")
 	public String menuOption(Model model ,String flag,String menuId,String menuPId){
 		SystemMenu menu = systemService.getMenuById(menuId);
@@ -56,9 +64,10 @@ public class SystemController {
 		model.addAttribute("menuPId", menuPId);
 		return "system/menu/menuR";
 	}
-	@RequestMapping(value="menuDelete.json")
+	
+	@RequestMapping(value="deleteMenu.json")
 	@ResponseBody
-	public Object menuDelete(SystemMenu menu){
+	public Object deleteMenu(SystemMenu menu){
 		return systemService.deleteMenu(menu);
 	}
 
@@ -75,12 +84,14 @@ public class SystemController {
 	public Object getAccessPermission(SystemMenu menu){
 		return systemService.getAccessPermission(menu);
 	}
+	
 	// 异步加载[该菜单所属]角色信息
 	@RequestMapping(value="getRole.json")
 	@ResponseBody
 	public Object getRole(SystemMenu menu){
 		return systemService.getRoleRecord(menu);
 	}
+	
 	// 异步加载全部角色信息
 	@RequestMapping(value="getRoleAll.json")
 	@ResponseBody
@@ -191,6 +202,7 @@ public class SystemController {
 	public Object deleteRole(String[] ids){
 		return systemService.deleteRole(ids);
 	}
+	
 	// 异步加载列表 
 	@RequestMapping(value="getRoleList.json")
 	@ResponseBody

@@ -101,10 +101,12 @@
 					return $(form).form('enableValidation').form('validate');
 				},
 				success : function(data) {
-					if(data.error == undefined){
+					if(data.success != undefined){
 						$.messager.alert('Info',data.success , 'info');
-					}else{
+					}else if(data.error != undefined){
 						$.messager.alert('Error',data.error , 'error');
+					}else{
+						$.messager.alert('Error',"未知错误" , 'error');
 					}
 				}
 			});

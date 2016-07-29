@@ -157,42 +157,42 @@
     -->
     insert into SMSE_USER
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+      <if test="id != null and id != ''" >
         ID,
       </if>
-      <if test="name != null" >
+      <if test="name != null and name != ''" >
         NAME,
       </if>
-      <if test="username != null" >
+      <if test="username != null and username != ''" >
         USERNAME,
       </if>
-      <if test="password != null" >
+      <if test="password != null and password != ''" >
         PASSWORD,
       </if>
-      <if test="mobile != null" >
+      <if test="mobile != null and mobile != ''" >
         MOBILE,
       </if>
-      <if test="email != null" >
+      <if test="email != null and email != ''" >
         EMAIL,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+      <if test="id != null and id != ''" >
         #{id,jdbcType=CHAR},
       </if>
-      <if test="name != null" >
+      <if test="name != null and name != ''" >
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="username != null" >
+      <if test="username != null and username != ''" >
         #{username,jdbcType=VARCHAR},
       </if>
-      <if test="password != null" >
+      <if test="password != null and password != ''" >
         #{password,jdbcType=VARCHAR},
       </if>
-      <if test="mobile != null" >
+      <if test="mobile != null and mobile != ''" >
         #{mobile,jdbcType=VARCHAR},
       </if>
-      <if test="email != null" >
+      <if test="email != null and email != ''" >
         #{email,jdbcType=VARCHAR},
       </if>
     </trim>
@@ -214,22 +214,22 @@
     -->
     update SMSE_USER
     <set >
-      <if test="record.id != null" >
+      <if test="record.id != null and record.id != ''" >
         ID = #{record.id,jdbcType=CHAR},
       </if>
-      <if test="record.name != null" >
+      <if test="record.name != null and record.name != ''" >
         NAME = #{record.name,jdbcType=VARCHAR},
       </if>
-      <if test="record.username != null" >
+      <if test="record.username != null and record.username != ''" >
         USERNAME = #{record.username,jdbcType=VARCHAR},
       </if>
-      <if test="record.password != null" >
+      <if test="record.password != null and record.password != ''" >
         PASSWORD = #{record.password,jdbcType=VARCHAR},
       </if>
-      <if test="record.mobile != null" >
+      <if test="record.mobile != null and record.mobile != ''" >
         MOBILE = #{record.mobile,jdbcType=VARCHAR},
       </if>
-      <if test="record.email != null" >
+      <if test="record.email != null and record.email != ''" >
         EMAIL = #{record.email,jdbcType=VARCHAR},
       </if>
     </set>
@@ -260,19 +260,19 @@
     -->
     update SMSE_USER
     <set >
-      <if test="name != null" >
+      <if test="name != null and name != ''" >
         NAME = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="username != null" >
+      <if test="username != null and username != ''" >
         USERNAME = #{username,jdbcType=VARCHAR},
       </if>
-      <if test="password != null" >
+      <if test="password != null and password != ''" >
         PASSWORD = #{password,jdbcType=VARCHAR},
       </if>
-      <if test="mobile != null" >
+      <if test="mobile != null and mobile != ''" >
         MOBILE = #{mobile,jdbcType=VARCHAR},
       </if>
-      <if test="email != null" >
+      <if test="email != null and email != ''" >
         EMAIL = #{email,jdbcType=VARCHAR},
       </if>
     </set>

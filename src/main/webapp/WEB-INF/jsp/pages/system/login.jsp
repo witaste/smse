@@ -36,6 +36,10 @@
 					showType:'slide'
 				});
 			}
+			// 认证未通过（例如长时间未操作session失效），父页面登出
+			if($("#tabs",window.parent.document).size() > 0){
+				window.parent.location.href = '${baseUrl}logout';
+			}
 		});
 
 		function login() {

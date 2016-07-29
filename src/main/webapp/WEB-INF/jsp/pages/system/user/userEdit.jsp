@@ -26,10 +26,6 @@
 					<td><input class="easyui-textbox" name="username" data-options="iconCls:'icon-man',iconWidth:38,required:true,validType:['length[0,20]','notBlank']" value="${user.username }"></td>
 				</tr>
 				<tr>
-					<td align="left">登录密码:</td>
-					<td><input class="easyui-textbox" name="password" data-options="type:'password',iconCls:'icon-lock',iconWidth:38,required:true,validType:['length[0,20]','notBlank']" value="${user.password }"></td>
-				</tr>
-				<tr>
 					<td align="left">手机号:</td>
 					<td><input class="easyui-textbox" name="mobile" data-options="required:true,validType:['mobile']" value="${user.mobile }"></td>
 				</tr>
@@ -104,10 +100,12 @@
 					return $(form).form('enableValidation').form('validate');
 				},
 				success : function(data) {
-					if(data.error == undefined){
+					if(data.success != undefined){
 						$.messager.alert('Info',data.success , 'info');
-					}else{
+					}else if(data.error != undefined){
 						$.messager.alert('Error',data.error , 'error');
+					}else{
+						$.messager.alert('Error',"未知错误" , 'error');
 					}
 				}
 			});

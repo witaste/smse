@@ -7,6 +7,7 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -63,6 +64,11 @@ public class SystemTxImpl implements SystemTx {
 	 * */
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void saveUserAddTransactional(SystemUser user) {
+		Md5PasswordEncoder md5 = new Md5PasswordEncoder();
+		String password = user.getPassword();
+		if(StringUtils.isNotBlank(password)){
+			user.setPassword(md5.encodePassword(password, null));
+		}
 		systemUserMapper.insertSelective(user);
 		if (user.getRoleList() == null)
 			return;

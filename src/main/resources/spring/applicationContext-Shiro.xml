@@ -5,21 +5,20 @@
 
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
 		<property name="securityManager" ref="webSecurityManager" />
-		<property name="loginUrl" value="login" />
-		<property name="successUrl" value="system/main.htm" />
-		<property name="unauthorizedUrl" value="login" />
+		<property name="loginUrl" value="/login" />
+		<property name="successUrl" value="/system/main.htm" />
+		<property name="unauthorizedUrl" value="/login" />
 		<property name="filterChainDefinitionMap" ref="section" />
 	</bean>
 
 	<bean id="section" class="cn.zno.smse.common.security.SectionFactory">
 		<property name="iniConfig">
 			<value>
-				# 图片等
 				/css/** = anon
 				/easyui/** = anon
 				/images/** = anon
-				# 登录
 				/login = anon
+				/** = authc
 			</value>
 		</property>
 	</bean>

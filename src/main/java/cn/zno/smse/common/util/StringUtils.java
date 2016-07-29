@@ -7,8 +7,6 @@ public class StringUtils {
 			return true;
 		if (str.trim().equals(""))
 			return true;
-		if(str.equals("null"))
-			return true;
 		return false;
 	}
 	

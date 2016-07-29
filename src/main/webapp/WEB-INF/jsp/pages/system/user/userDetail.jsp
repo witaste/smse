@@ -25,10 +25,6 @@
 				<td align="left">${user.username }</td>
 			</tr>
 			<tr>
-				<td align="right">登录密码：</td>
-				<td align="left">${user.password }</td>
-			</tr>
-			<tr>
 				<td align="right">手机号：</td>
 				<td align="left">${user.mobile }</td>
 			</tr>

@@ -20,6 +20,8 @@ public class Constants {
 	public static final String ERROR_INSERT = "数据插入失败！";
 	public static final String ERROR_UPDATE = "数据更新失败！";
 	public static final String ERROR_DELETE = "数据删除失败！";
+	public static final String ERROR_NORIGHT = "no right";
+	public static final String ERROR_INVALID_PARAMETER = "无效的参数";
 	
 	
 	

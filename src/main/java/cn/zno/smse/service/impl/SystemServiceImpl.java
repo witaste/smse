@@ -8,9 +8,11 @@ import java.util.Set;
 
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.credential.Md5CredentialsMatcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import cn.zno.smse.common.constants.Constants;
@@ -460,6 +462,8 @@ public class SystemServiceImpl implements SystemService {
 
 	@Override
 	public SystemUser getUserByPassword(String username , String password) {
+		if(username == null || password == null)
+			return null;
 		Map<String,String> paramMap = new HashMap<String,String>();
 		paramMap.put("username", username);
 		paramMap.put("password", password);
@@ -469,5 +473,33 @@ public class SystemServiceImpl implements SystemService {
 	@Override
 	public List<SystemAccessPermission> getPermissionAll() {
 		return systemAccessPermissionMapper.selectByExample(new SystemAccessPermissionExample());
+	}
+
+	@Override
+	public Map<String, Object> savePassword(String oldPassword, String newPassword, String confirmPassword) {
+		Map<String, Object> resultMap = new HashMap<String,Object>();
+		if(newPassword == null || oldPassword == null || confirmPassword == null){
+			resultMap.put(Constants.ERROR, Constants.ERROR_INVALID_PARAMETER);
+			return resultMap;
+		}
+		if(!newPassword.equals(confirmPassword)){
+			resultMap.put(Constants.ERROR, "新密码不匹配");
+			return resultMap;
+		}
+		
+		SystemUser user = (SystemUser)SecurityUtils.getSubject().getPrincipal();
+		
+		Md5PasswordEncoder md5PasswordEncoder = new Md5PasswordEncoder();
+		if(!md5PasswordEncoder.isPasswordValid(user.getPassword(), oldPassword, null)){
+			resultMap.put(Constants.ERROR, "密码不正确");
+			return resultMap;
+		}
+		SystemUser systemUser = new SystemUser();
+		systemUser.setId(user.getId());
+		systemUser.setPassword(md5PasswordEncoder.encodePassword(newPassword, null));
+		systemUserMapper.updateByPrimaryKeySelective(systemUser);
+		SecurityUtils.getSubject().logout();
+		resultMap.put(Constants.SUCCESS, "密码修改成功，请重新登陆。");
+		return resultMap;
 	}
 }
